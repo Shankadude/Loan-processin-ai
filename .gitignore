@@ -1,0 +1,37 @@
+# Virtual Environment
+.venv/
+env/
+venv/
+ENV/
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environment Variables & Secrets (CRITICAL: Do NOT push API keys/passwords)
+.env
+.env.local
+.env.*.local
+
+# Database / Local Storage
+*.sqlite3
+*.db
+
+# Generated Test Files & Artifacts
+test_documents/
+*.png
+*.jpg
+*.jpeg
+*.pdf
+
+# IDE / Editor Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Generated Files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,26 @@
+#Make sure to use this only in venv other wise environmet variable errors might haunt you to death.
+
+# Web Framework & API Server
+fastapi>=0.111.0
+uvicorn>=0.30.0
+streamlit>=1.36.0
+python-multipart>=0.0.9
+requests>=2.31.0
+
+# Orchestration & Google GenAI API
+langgraph>=0.2.0
+langchain>=0.2.0
+langchain-core>=0.2.0
+langchain-google-genai>=1.0.0
+google-generativeai>=0.7.0
+pydantic>=2.7.0
+
+# Pure Python PDF & Image Processing
+PyMuPDF>=1.24.0
+Pillow>=10.0.0
+
+# Database & Data Science
+pandas>=2.2.0
+motor>=3.5.0
+dnspython>=2.6.0
+python-dotenv>=1.0.0
