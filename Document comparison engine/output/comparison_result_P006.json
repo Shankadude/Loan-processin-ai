@@ -1,0 +1,166 @@
+{
+  "applicant_id": "P006",
+  "identity_status": "MATCH",
+  "income_status": "MATCH",
+  "liability_status": "PARTIAL_MATCH",
+  "overall_status": "PARTIAL_MATCH",
+  "declared_monthly_net": 74290.0,
+  "verified_monthly_net": 74290.0,
+  "income_difference": 0.0,
+  "income_difference_percent": 0.0,
+  "declared_emi": 0.0,
+  "detected_emi": 64800.0,
+  "dti_percent": 87.23,
+  "discrepancies": [
+    {
+      "field": "name",
+      "declared_value": "Logan Acharya",
+      "verified_value": "Logan Acharya",
+      "normalized_declared": "LOGAN ACHARYA",
+      "normalized_verified": "LOGAN ACHARYA",
+      "status": "MATCH",
+      "discrepancy_amount": null,
+      "discrepancy_percent": null,
+      "comparison_method": "DETERMINISTIC",
+      "evidence": [
+        {
+          "source_document": "LOAN_APPLICATION",
+          "source_path": "documents[].extracted.name",
+          "field": "name",
+          "value": "Logan Acharya",
+          "evidence_type": "DECLARED",
+          "note": null
+        },
+        {
+          "source_document": "PAN/AADHAAR",
+          "source_path": "documents[].extracted.name",
+          "field": "name",
+          "value": "Logan Acharya",
+          "evidence_type": "VERIFIED",
+          "note": null
+        }
+      ],
+      "reason": "Normalized comparison: 'LOGAN ACHARYA' vs 'LOGAN ACHARYA'."
+    },
+    {
+      "field": "dob",
+      "declared_value": "1995-09-12",
+      "verified_value": "1995-09-12",
+      "normalized_declared": "1995-09-12",
+      "normalized_verified": "1995-09-12",
+      "status": "MATCH",
+      "discrepancy_amount": null,
+      "discrepancy_percent": null,
+      "comparison_method": "DETERMINISTIC",
+      "evidence": [],
+      "reason": "Exact DOB comparison."
+    },
+    {
+      "field": "pan_number",
+      "declared_value": "ZMOPA4036Y",
+      "verified_value": "ZMOPA4036Y",
+      "normalized_declared": "ZMOPA4036Y",
+      "normalized_verified": "ZMOPA4036Y",
+      "status": "MATCH",
+      "discrepancy_amount": null,
+      "discrepancy_percent": null,
+      "comparison_method": "DETERMINISTIC",
+      "evidence": [],
+      "reason": "Exact PAN comparison."
+    },
+    {
+      "field": "net_monthly_income",
+      "declared_value": 74290.0,
+      "verified_value": 74290.0,
+      "normalized_declared": 74290.0,
+      "normalized_verified": 74290.0,
+      "status": "MATCH",
+      "discrepancy_amount": 0.0,
+      "discrepancy_percent": 0.0,
+      "comparison_method": "DETERMINISTIC",
+      "evidence": [
+        {
+          "source_document": "LOAN_APPLICATION",
+          "source_path": "documents[].extracted.net_monthly",
+          "field": "net_monthly_income",
+          "value": 74290.0,
+          "evidence_type": "DECLARED",
+          "note": null
+        },
+        {
+          "source_document": "PAYSLIP",
+          "source_path": "documents[].extracted.net_pay",
+          "field": "net_monthly_income",
+          "value": 74290.0,
+          "evidence_type": "VERIFIED",
+          "note": null
+        }
+      ],
+      "reason": "Difference = Rs. 0.00, percentage difference = 0.0%."
+    },
+    {
+      "field": "employer",
+      "declared_value": "Codebridge IT Services Pvt Ltd",
+      "verified_value": "Codebridge IT Services Pvt Ltd",
+      "normalized_declared": "codebridge it services pvt ltd",
+      "normalized_verified": "codebridge it services pvt ltd",
+      "status": "MATCH",
+      "discrepancy_amount": null,
+      "discrepancy_percent": null,
+      "comparison_method": "DETERMINISTIC",
+      "evidence": [
+        {
+          "source_document": "LOAN_APPLICATION",
+          "source_path": "documents[].extracted.employer",
+          "field": "employer",
+          "value": "Codebridge IT Services Pvt Ltd",
+          "evidence_type": "DECLARED",
+          "note": null
+        },
+        {
+          "source_document": "PAYSLIP/FORM16",
+          "source_path": "documents[].extracted.employer_name",
+          "field": "employer",
+          "value": "Codebridge IT Services Pvt Ltd",
+          "evidence_type": "VERIFIED",
+          "note": null
+        }
+      ],
+      "reason": "Normalized employer comparison."
+    }
+  ],
+  "semantic_findings": [
+    {
+      "field": "Name",
+      "status": "MATCH",
+      "reason": "Both records contain matching full name.",
+      "confidence": 100.0
+    },
+    {
+      "field": "Employer",
+      "status": "MATCH",
+      "reason": "Both records contain matching employer name.",
+      "confidence": 100.0
+    },
+    {
+      "field": "Purpose",
+      "status": "NOT_AVAILABLE",
+      "reason": "Purpose field is missing in the verified information.",
+      "confidence": 100.0
+    }
+  ],
+  "anomalies": [],
+  "evidence": [
+    {
+      "source_document": "BANK_STATEMENT",
+      "source_path": "transactions[]",
+      "field": "detected_emi",
+      "value": 64800.0,
+      "evidence_type": "DERIVED",
+      "note": "Only transactions classified as emi_debit are counted."
+    }
+  ],
+  "risk_level": "MEDIUM",
+  "recommendation": "REVIEW",
+  "audit_notes": "DTI exceeds standard policy threshold."
+}

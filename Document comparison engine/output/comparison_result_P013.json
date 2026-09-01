@@ -1,0 +1,169 @@
+{
+  "applicant_id": "P013",
+  "identity_status": "MISMATCH",
+  "income_status": "MATCH",
+  "liability_status": "MISMATCH",
+  "overall_status": "MISMATCH",
+  "declared_monthly_net": 37220.0,
+  "verified_monthly_net": 37575.0,
+  "income_difference": 355.0,
+  "income_difference_percent": 0.95,
+  "declared_emi": 0.0,
+  "detected_emi": 48840.0,
+  "dti_percent": 129.98,
+  "discrepancies": [
+    {
+      "field": "name",
+      "declared_value": "Kala Talwar",
+      "verified_value": "Gaurangi Brar",
+      "normalized_declared": "KALA TALWAR",
+      "normalized_verified": "GAURANGI BRAR",
+      "status": "MISMATCH",
+      "discrepancy_amount": null,
+      "discrepancy_percent": null,
+      "comparison_method": "DETERMINISTIC",
+      "evidence": [
+        {
+          "source_document": "LOAN_APPLICATION",
+          "source_path": "documents[].extracted.name",
+          "field": "name",
+          "value": "Kala Talwar",
+          "evidence_type": "DECLARED",
+          "note": null
+        },
+        {
+          "source_document": "PAN/AADHAAR",
+          "source_path": "documents[].extracted.name",
+          "field": "name",
+          "value": "Gaurangi Brar",
+          "evidence_type": "VERIFIED",
+          "note": null
+        }
+      ],
+      "reason": "Normalized comparison: 'KALA TALWAR' vs 'GAURANGI BRAR'."
+    },
+    {
+      "field": "dob",
+      "declared_value": "1987-05-15",
+      "verified_value": "1987-05-15",
+      "normalized_declared": "1987-05-15",
+      "normalized_verified": "1987-05-15",
+      "status": "MATCH",
+      "discrepancy_amount": null,
+      "discrepancy_percent": null,
+      "comparison_method": "DETERMINISTIC",
+      "evidence": [],
+      "reason": "Exact DOB comparison."
+    },
+    {
+      "field": "pan_number",
+      "declared_value": "IEUPT0513T",
+      "verified_value": "IEUPT0513T",
+      "normalized_declared": "IEUPT0513T",
+      "normalized_verified": "IEUPT0513T",
+      "status": "MATCH",
+      "discrepancy_amount": null,
+      "discrepancy_percent": null,
+      "comparison_method": "DETERMINISTIC",
+      "evidence": [],
+      "reason": "Exact PAN comparison."
+    },
+    {
+      "field": "net_monthly_income",
+      "declared_value": 37220.0,
+      "verified_value": 37575.0,
+      "normalized_declared": 37220.0,
+      "normalized_verified": 37575.0,
+      "status": "MATCH",
+      "discrepancy_amount": 355.0,
+      "discrepancy_percent": 0.95,
+      "comparison_method": "DETERMINISTIC",
+      "evidence": [
+        {
+          "source_document": "LOAN_APPLICATION",
+          "source_path": "documents[].extracted.net_monthly",
+          "field": "net_monthly_income",
+          "value": 37220.0,
+          "evidence_type": "DECLARED",
+          "note": null
+        },
+        {
+          "source_document": "PAYSLIP",
+          "source_path": "documents[].extracted.net_pay",
+          "field": "net_monthly_income",
+          "value": 37575.0,
+          "evidence_type": "VERIFIED",
+          "note": null
+        }
+      ],
+      "reason": "Difference = Rs. 355.00, percentage difference = 0.95%."
+    },
+    {
+      "field": "employer",
+      "declared_value": "Bharat Steel & Alloys Ltd",
+      "verified_value": "Bharat Steel & Alloys Ltd",
+      "normalized_declared": "bharat steel alloys ltd",
+      "normalized_verified": "bharat steel alloys ltd",
+      "status": "MATCH",
+      "discrepancy_amount": null,
+      "discrepancy_percent": null,
+      "comparison_method": "DETERMINISTIC",
+      "evidence": [
+        {
+          "source_document": "LOAN_APPLICATION",
+          "source_path": "documents[].extracted.employer",
+          "field": "employer",
+          "value": "Bharat Steel & Alloys Ltd",
+          "evidence_type": "DECLARED",
+          "note": null
+        },
+        {
+          "source_document": "PAYSLIP/FORM16",
+          "source_path": "documents[].extracted.employer_name",
+          "field": "employer",
+          "value": "Bharat Steel & Alloys Ltd",
+          "evidence_type": "VERIFIED",
+          "note": null
+        }
+      ],
+      "reason": "Normalized employer comparison."
+    }
+  ],
+  "semantic_findings": [
+    {
+      "field": "Name",
+      "status": "MISMATCH",
+      "reason": "Names differ between records.",
+      "confidence": 100.0
+    },
+    {
+      "field": "Employer",
+      "status": "MATCH",
+      "reason": "Both records contain the same employer name.",
+      "confidence": 100.0
+    },
+    {
+      "field": "Purpose",
+      "status": "NOT_AVAILABLE",
+      "reason": "Purpose field is missing in the verified information.",
+      "confidence": 100.0
+    }
+  ],
+  "anomalies": [
+    "IDENTITY_MISMATCH",
+    "UNDISCLOSED_LIABILITY"
+  ],
+  "evidence": [
+    {
+      "source_document": "BANK_STATEMENT",
+      "source_path": "transactions[]",
+      "field": "detected_emi",
+      "value": 48840.0,
+      "evidence_type": "DERIVED",
+      "note": "Only transactions classified as emi_debit are counted."
+    }
+  ],
+  "risk_level": "HIGH",
+  "recommendation": "REJECT",
+  "audit_notes": "Identity mismatch detected. Potential undisclosed liability. DTI exceeds standard policy threshold."
+}

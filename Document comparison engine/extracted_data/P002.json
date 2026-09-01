@@ -1,0 +1,961 @@
+
+{
+  "_id": "P002",
+  "applicant": {
+    "full_name": "Hemang Nanda",
+    "pan_number": "DNNPN5881Z",
+    "dob": "1979-08-22",
+    "aadhaar_last4": "4418"
+  },
+  "documents": [
+    {
+      "doc_type": "PAYSLIP",
+      "extracted": {
+        "employee_name": "Hemang Nanda",
+        "employer_name": "Vertex Financial Services Ltd",
+        "pay_month": "2026-05-01",
+        "earnings": {
+          "Basic": 30381,
+          "House Rent Allowance": 15190,
+          "Conveyance Allowance": 1600,
+          "Special Allowance": 26289
+        },
+        "deductions": {
+          "Provident Fund": 1800,
+          "Professional Tax": 200,
+          "TDS": 0
+        },
+        "gross_earnings": 73460,
+        "total_deductions": 2000,
+        "net_pay": 71460
+      }
+    },
+    {
+      "doc_type": "PAYSLIP",
+      "extracted": {
+        "employee_name": "Hemang Nanda",
+        "employer_name": "Vertex Financial Services Ltd",
+        "pay_month": "2026-06-01",
+        "earnings": {
+          "Basic": 31229,
+          "House Rent Allowance": 15614,
+          "Conveyance Allowance": 1600,
+          "Special Allowance": 27066
+        },
+        "deductions": {
+          "Provident Fund": 1800,
+          "Professional Tax": 200,
+          "TDS": 0
+        },
+        "gross_earnings": 75509,
+        "total_deductions": 2000,
+        "net_pay": 73509
+      }
+    },
+    {
+      "doc_type": "PAYSLIP",
+      "extracted": {
+        "employee_name": "Hemang Nanda",
+        "employer_name": "Vertex Financial Services Ltd",
+        "pay_month": "2026-07-01",
+        "earnings": {
+          "Basic": 31030,
+          "House Rent Allowance": 15515,
+          "Conveyance Allowance": 1600,
+          "Special Allowance": 26883
+        },
+        "deductions": {
+          "Provident Fund": 1800,
+          "Professional Tax": 200,
+          "TDS": 0
+        },
+        "gross_earnings": 75028,
+        "total_deductions": 2000,
+        "net_pay": 73028
+      }
+    },
+    {
+      "doc_type": "BANK_STATEMENT",
+      "extracted": {
+        "account_holder_name": "Hemang Nanda",
+        "bank_name": "ICICI Bank",
+        "period_start": "2026-02-01",
+        "period_end": "2026-07-31",
+        "opening_balance": 10815.31,
+        "closing_balance": 114984.38,
+        "total_credits": 461677.8,
+        "total_debits": 357508.73,
+        "transactions": [
+          {
+            "date": "2026-01-30",
+            "narration": "SALARY-VERTEX FINANCIAL SERVICES LTD-NEFT",
+            "amount": 71360,
+            "category": "salary_credit"
+          },
+          {
+            "date": "2026-02-01",
+            "narration": "UPI-NETFLIX-netflix@okaxis-95597763208",
+            "amount": -909.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-01",
+            "narration": "POS NETFLIX MCC5587",
+            "amount": -803,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-02-01",
+            "narration": "UPI-LOCAL KIRANA STORE-kiranastore@okicici-69904919596",
+            "amount": -607,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-03",
+            "narration": "NEFT DR-RENT PAYMENT",
+            "amount": -20500,
+            "category": "rent_debit"
+          },
+          {
+            "date": "2026-02-07",
+            "narration": "UPI-SWIGGY-swiggy@ybl-64598834398",
+            "amount": -1360,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-07",
+            "narration": "UPI-AMAZON-amazon@apl-92491668396",
+            "amount": -637.99,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-14",
+            "narration": "UPI-BLINKIT-blinkit@ybl-18946617746",
+            "amount": -756,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-14",
+            "narration": "UPI-FLIPKART-flipkart@axb-52351749844",
+            "amount": -1051,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-15",
+            "narration": "UPI-NETFLIX-netflix@okaxis-80728385833",
+            "amount": -765.99,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-15",
+            "narration": "UPI-ZOMATO-zomato@paytm-62466305240",
+            "amount": -2166.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-15",
+            "narration": "UPI-SWIGGY-swiggy@ybl-14047097765",
+            "amount": -1452,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-15",
+            "narration": "UPI-LOCAL KIRANA STORE-kiranastore@okicici-60589890309",
+            "amount": -1261,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-15",
+            "narration": "UPI-BIGBASKET-bigbasket@icici-20747387657",
+            "amount": -819,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-17",
+            "narration": "ATM-CASH-NWD",
+            "amount": -10000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-02-18",
+            "narration": "UPI-BLINKIT-blinkit@ybl-41749770934",
+            "amount": -1279,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-20",
+            "narration": "ATM-CASH-ICIC",
+            "amount": -3000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-02-22",
+            "narration": "UPI-FLIPKART-flipkart@axb-62248703569",
+            "amount": -1087,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-23",
+            "narration": "UPI-FLIPKART-flipkart@axb-85670471388",
+            "amount": -1329,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-26",
+            "narration": "UPI-UBER-uber@okhdfcbank-25890448362",
+            "amount": -953,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-26",
+            "narration": "UPI-SWIGGY-swiggy@ybl-57868867608",
+            "amount": -1137,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-27",
+            "narration": "UPI-UBER-uber@okhdfcbank-88726976790",
+            "amount": -280,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-27",
+            "narration": "SALARY-VERTEX FINANCIAL SERVICES LTD-NEFT",
+            "amount": 72767,
+            "category": "salary_credit"
+          },
+          {
+            "date": "2026-02-28",
+            "narration": "UPI-BIGBASKET-bigbasket@icici-29436787374",
+            "amount": -174.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-01",
+            "narration": "UPI-NETFLIX-netflix@okaxis-91996212146",
+            "amount": -828.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-04",
+            "narration": "UPI-NETFLIX-netflix@okaxis-66012168883",
+            "amount": -1082,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-04",
+            "narration": "UPI-NETFLIX-netflix@okaxis-86380515680",
+            "amount": -288,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-05",
+            "narration": "NEFT DR-RENT PAYMENT",
+            "amount": -20500,
+            "category": "rent_debit"
+          },
+          {
+            "date": "2026-03-06",
+            "narration": "UPI-SWIGGY-swiggy@ybl-53680936142",
+            "amount": -834,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-08",
+            "narration": "TRF TO SELF A/C XX1582",
+            "amount": -9592,
+            "category": "self_transfer"
+          },
+          {
+            "date": "2026-03-11",
+            "narration": "POS BOOKMYSHOW MCC5904",
+            "amount": -4812,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-03-11",
+            "narration": "UPI-BLINKIT-blinkit@ybl-90103272239",
+            "amount": -880,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-14",
+            "narration": "ATM-CASH-ICIC",
+            "amount": -5000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-03-15",
+            "narration": "UPI-NETFLIX-netflix@okaxis-10123400439",
+            "amount": -3167,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-15",
+            "narration": "TRF TO SELF A/C XX1582",
+            "amount": 9592,
+            "category": "self_transfer"
+          },
+          {
+            "date": "2026-03-19",
+            "narration": "UPI-BOOKMYSHOW-bookmyshow@hdfcbank-44035484319",
+            "amount": -658,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-22",
+            "narration": "UPI-FLIPKART-flipkart@axb-36942814379",
+            "amount": -2169,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-26",
+            "narration": "UPI-ZOMATO-zomato@paytm-82724001433",
+            "amount": -695,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-28",
+            "narration": "UPI-AMAZON-amazon@apl-75405455520",
+            "amount": -2843.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-28",
+            "narration": "UPI-BIGBASKET-bigbasket@icici-55200281053",
+            "amount": -1448,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-28",
+            "narration": "UPI-SWIGGY-swiggy@ybl-65998513226",
+            "amount": -1440,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-29",
+            "narration": "UPI-BOOKMYSHOW-bookmyshow@hdfcbank-81544869152",
+            "amount": -915.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-29",
+            "narration": "UPI-BIGBASKET-bigbasket@icici-97705832256",
+            "amount": -1768,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-01",
+            "narration": "SALARY-VERTEX FINANCIAL SERVICES LTD-NEFT",
+            "amount": 73423,
+            "category": "salary_credit"
+          },
+          {
+            "date": "2026-04-01",
+            "narration": "UPI-UBER-uber@okhdfcbank-19288190521",
+            "amount": -1465,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-05",
+            "narration": "NEFT DR-RENT PAYMENT",
+            "amount": -20500,
+            "category": "rent_debit"
+          },
+          {
+            "date": "2026-04-05",
+            "narration": "UPI-LOCAL KIRANA STORE-kiranastore@okicici-96320669029",
+            "amount": -539.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-12",
+            "narration": "UPI-AMAZON-amazon@apl-94875517309",
+            "amount": -2878,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-12",
+            "narration": "UPI-AMAZON-amazon@apl-54804701391",
+            "amount": -1987,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-16",
+            "narration": "POS BLINKIT MCC5584",
+            "amount": -2750,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-04-18",
+            "narration": "UPI-BIGBASKET-bigbasket@icici-66343915002",
+            "amount": -2982,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-18",
+            "narration": "ATM-CASH-ICIC",
+            "amount": -10000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-04-19",
+            "narration": "UPI-FLIPKART-flipkart@axb-88518592923",
+            "amount": -2207,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-19",
+            "narration": "UPI-ZOMATO-zomato@paytm-24002031600",
+            "amount": -1390.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-22",
+            "narration": "UPI-UBER-uber@okhdfcbank-89902145330",
+            "amount": -1107,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-25",
+            "narration": "UPI-LOCAL KIRANA STORE-kiranastore@okicici-90092335681",
+            "amount": -2918.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-25",
+            "narration": "UPI-FLIPKART-flipkart@axb-42474978734",
+            "amount": -415.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-25",
+            "narration": "UPI-SWIGGY-swiggy@ybl-70760753142",
+            "amount": -2923,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-26",
+            "narration": "POS SWIGGY MCC5961",
+            "amount": -4068,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-04-30",
+            "narration": "CREDIT INTEREST",
+            "amount": 260.4,
+            "category": "interest_credit"
+          },
+          {
+            "date": "2026-05-01",
+            "narration": "SALARY-VERTEX FINANCIAL SERVICES LTD-NEFT",
+            "amount": 71460,
+            "category": "salary_credit"
+          },
+          {
+            "date": "2026-05-02",
+            "narration": "UPI-ZOMATO-zomato@paytm-99282915772",
+            "amount": -191.99,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-03",
+            "narration": "UPI-LOCAL KIRANA STORE-kiranastore@okicici-79549773723",
+            "amount": -2888.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-03",
+            "narration": "UPI-BLINKIT-blinkit@ybl-71529212056",
+            "amount": -213,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-03",
+            "narration": "UPI-BOOKMYSHOW-bookmyshow@hdfcbank-34456019692",
+            "amount": -268,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-05",
+            "narration": "NEFT DR-RENT PAYMENT",
+            "amount": -20500,
+            "category": "rent_debit"
+          },
+          {
+            "date": "2026-05-08",
+            "narration": "UPI-BOOKMYSHOW-bookmyshow@hdfcbank-56416265601",
+            "amount": -1495,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-09",
+            "narration": "UPI-SWIGGY-swiggy@ybl-81519027740",
+            "amount": -1344,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-10",
+            "narration": "UPI-BIGBASKET-bigbasket@icici-97403385998",
+            "amount": -1868.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-10",
+            "narration": "UPI-BIGBASKET-bigbasket@icici-96505957653",
+            "amount": -1169,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-11",
+            "narration": "UPI-NETFLIX-netflix@okaxis-40470792248",
+            "amount": -353,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-12",
+            "narration": "UPI-ZOMATO-zomato@paytm-71871445134",
+            "amount": -594,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-14",
+            "narration": "ATM-CASH-ICIC",
+            "amount": -3000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-05-17",
+            "narration": "UPI-LOCAL KIRANA STORE-kiranastore@okicici-30642040300",
+            "amount": -1622.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-20",
+            "narration": "POS UBER MCC5905",
+            "amount": -3184,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-05-23",
+            "narration": "UPI-FLIPKART-flipkart@axb-76329357662",
+            "amount": -2814.99,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-23",
+            "narration": "UPI-ZOMATO-zomato@paytm-26829452272",
+            "amount": -1019.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-27",
+            "narration": "POS UBER MCC5414",
+            "amount": -5119,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-05-28",
+            "narration": "UPI-FLIPKART-flipkart@axb-54821169055",
+            "amount": -847,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-31",
+            "narration": "UPI-UBER-uber@okhdfcbank-97402538105",
+            "amount": -181,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-31",
+            "narration": "UPI-FLIPKART-flipkart@axb-91212500044",
+            "amount": -613.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-01",
+            "narration": "SALARY-VERTEX FINANCIAL SERVICES LTD-NEFT",
+            "amount": 73509,
+            "category": "salary_credit"
+          },
+          {
+            "date": "2026-06-01",
+            "narration": "UPI-FLIPKART-flipkart@axb-80795713775",
+            "amount": -198,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-01",
+            "narration": "UPI-UBER-uber@okhdfcbank-66203593644",
+            "amount": -1069,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-02",
+            "narration": "UPI-NETFLIX-netflix@okaxis-14371295553",
+            "amount": -1038,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-02",
+            "narration": "UPI-LOCAL KIRANA STORE-kiranastore@okicici-19911215838",
+            "amount": -645,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-03",
+            "narration": "UPI-AMAZON-amazon@apl-15690521826",
+            "amount": -691,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-04",
+            "narration": "UPI-AMAZON-amazon@apl-33452800243",
+            "amount": -1332,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-05",
+            "narration": "NEFT DR-RENT PAYMENT",
+            "amount": -20500,
+            "category": "rent_debit"
+          },
+          {
+            "date": "2026-06-07",
+            "narration": "UPI-FLIPKART-flipkart@axb-22216640977",
+            "amount": -1045.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-07",
+            "narration": "UPI-UBER-uber@okhdfcbank-81290748848",
+            "amount": -258,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-10",
+            "narration": "ATM-CASH-NWD",
+            "amount": -4000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-06-12",
+            "narration": "UPI-SWIGGY-swiggy@ybl-10837812569",
+            "amount": -149,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-13",
+            "narration": "UPI-SWIGGY-swiggy@ybl-89675295438",
+            "amount": -2611,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-13",
+            "narration": "ATM-CASH-NWD",
+            "amount": -10000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-06-14",
+            "narration": "UPI-BIGBASKET-bigbasket@icici-98352887826",
+            "amount": -1050.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-15",
+            "narration": "POS LOCAL KIRANA STORE MCC5951",
+            "amount": -4488,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-06-15",
+            "narration": "UPI-NETFLIX-netflix@okaxis-21676788153",
+            "amount": -232,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-15",
+            "narration": "FT/10834762912282",
+            "amount": -16128,
+            "category": "self_transfer"
+          },
+          {
+            "date": "2026-06-16",
+            "narration": "UPI-NETFLIX-netflix@okaxis-17732455298",
+            "amount": -985,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-17",
+            "narration": "UPI-BIGBASKET-bigbasket@icici-40029370493",
+            "amount": -336,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-18",
+            "narration": "UPI-SWIGGY-swiggy@ybl-21508676038",
+            "amount": -1399,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-20",
+            "narration": "UPI-UBER-uber@okhdfcbank-99960863998",
+            "amount": -308,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-20",
+            "narration": "FT/10834762912282",
+            "amount": 16128,
+            "category": "self_transfer"
+          },
+          {
+            "date": "2026-06-21",
+            "narration": "UPI-BOOKMYSHOW-bookmyshow@hdfcbank-38335713742",
+            "amount": -1143.99,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-21",
+            "narration": "UPI-SWIGGY-swiggy@ybl-42034564164",
+            "amount": -197,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-21",
+            "narration": "UPI-BOOKMYSHOW-bookmyshow@hdfcbank-49197018158",
+            "amount": -1112,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-23",
+            "narration": "UPI-NETFLIX-netflix@okaxis-54158757744",
+            "amount": -942,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-27",
+            "narration": "UPI-NETFLIX-netflix@okaxis-24028542784",
+            "amount": -2730.99,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-28",
+            "narration": "UPI-ZOMATO-zomato@paytm-49113655426",
+            "amount": -2712,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-01",
+            "narration": "SALARY-VERTEX FINANCIAL SERVICES LTD-NEFT",
+            "amount": 73028,
+            "category": "salary_credit"
+          },
+          {
+            "date": "2026-07-02",
+            "narration": "NEFT DR-RENT PAYMENT",
+            "amount": -20500,
+            "category": "rent_debit"
+          },
+          {
+            "date": "2026-07-04",
+            "narration": "UPI-BOOKMYSHOW-bookmyshow@hdfcbank-27970720521",
+            "amount": -2762.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-04",
+            "narration": "UPI-BLINKIT-blinkit@ybl-86293454259",
+            "amount": -632,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-04",
+            "narration": "UPI-LOCAL KIRANA STORE-kiranastore@okicici-55613805022",
+            "amount": -1476,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-05",
+            "narration": "ATM-CASH-ICIC",
+            "amount": -4000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-07-06",
+            "narration": "UPI-BOOKMYSHOW-bookmyshow@hdfcbank-54620186118",
+            "amount": -755,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-07",
+            "narration": "POS SWIGGY MCC5857",
+            "amount": -5006,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-07-07",
+            "narration": "UPI-LOCAL KIRANA STORE-kiranastore@okicici-13141972079",
+            "amount": -352,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-08",
+            "narration": "UPI-BLINKIT-blinkit@ybl-21273019271",
+            "amount": -1102,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-11",
+            "narration": "UPI-BLINKIT-blinkit@ybl-20457429758",
+            "amount": -1745,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-11",
+            "narration": "UPI-UBER-uber@okhdfcbank-91408701592",
+            "amount": -1282,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-18",
+            "narration": "UPI-FLIPKART-flipkart@axb-80077256709",
+            "amount": -551,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-18",
+            "narration": "ATM-CASH-ICIC",
+            "amount": -10000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-07-19",
+            "narration": "UPI-BIGBASKET-bigbasket@icici-34109117242",
+            "amount": -2517,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-19",
+            "narration": "UPI-AMAZON-amazon@apl-88483203443",
+            "amount": -901,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-19",
+            "narration": "UPI-FLIPKART-flipkart@axb-40008729441",
+            "amount": -179,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-23",
+            "narration": "UPI-BIGBASKET-bigbasket@icici-61160109805",
+            "amount": -286,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-25",
+            "narration": "UPI-BLINKIT-blinkit@ybl-98338729888",
+            "amount": -2018,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-25",
+            "narration": "UPI-AMAZON-amazon@apl-91596976396",
+            "amount": -2843.99,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-25",
+            "narration": "UPI-LOCAL KIRANA STORE-kiranastore@okicici-91523424070",
+            "amount": -1205.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-26",
+            "narration": "UPI-BOOKMYSHOW-bookmyshow@hdfcbank-35935098505",
+            "amount": -541.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-29",
+            "narration": "UPI-FLIPKART-flipkart@axb-74825389725",
+            "amount": -881,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-31",
+            "narration": "CREDIT INTEREST",
+            "amount": 150.4,
+            "category": "interest_credit"
+          }
+        ]
+      }
+    },
+    {
+      "doc_type": "FORM16",
+      "extracted": {
+        "employee_name": "Hemang Nanda",
+        "pan_number": "DNNPN5881Z",
+        "employer_name": "Vertex Financial Services Ltd",
+        "assessment_year": "2026-27",
+        "annual_gross": 917416,
+        "annual_tds": 0,
+        "quarters": [
+          {
+            "quarter": "Q1",
+            "tax_deducted": 0
+          },
+          {
+            "quarter": "Q2",
+            "tax_deducted": 0
+          },
+          {
+            "quarter": "Q3",
+            "tax_deducted": 0
+          },
+          {
+            "quarter": "Q4",
+            "tax_deducted": 0
+          }
+        ]
+      }
+    },
+    {
+      "doc_type": "PAN_CARD",
+      "extracted": {
+        "name": "Hemang Nanda",
+        "father_name": "Theodore Nanda",
+        "dob": "1979-08-22",
+        "pan_number": "DNNPN5881Z"
+      }
+    },
+    {
+      "doc_type": "AADHAAR_CARD",
+      "extracted": {
+        "name": "HEMANG NANDA",
+        "dob": "1979-08-22",
+        "gender": "male",
+        "address": "H.No. 548, Bhatt Ganj, Mumbai 044215",
+        "aadhaar_last4": "4418"
+      }
+    },
+    {
+      "doc_type": "LOAN_APPLICATION",
+      "extracted": {
+        "name": "Hemang Nanda",
+        "gender": "Male",
+        "dob": "1979-08-22",
+        "employer": "Vertex Financial Services Ltd",
+        "designation": "Relationship Manager",
+        "gross_monthly": 111432,
+        "net_monthly": 108462,
+        "loan_amount_requested": 568000.0,
+        "tenure_months": 48,
+        "purpose": "Purchase of Consumer Durables",
+        "liabilities": []
+      }
+    }
+  ]
+}

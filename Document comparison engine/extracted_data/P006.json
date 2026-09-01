@@ -1,0 +1,982 @@
+// NOTE: this person is CLEAN — every document agrees and the loan application matches all of them.
+{
+  "_id": "P006",
+  "applicant": {
+    "full_name": "Logan Acharya",
+    "pan_number": "ZMOPA4036Y",
+    "dob": "1995-09-12",
+    "aadhaar_last4": "9911"
+  },
+  "documents": [
+    {
+      "doc_type": "PAYSLIP",
+      "extracted": {
+        "employee_name": "Logan Acharya",
+        "employer_name": "Codebridge IT Services Pvt Ltd",
+        "pay_month": "2026-05-01",
+        "earnings": {
+          "Basic": 36231,
+          "House Rent Allowance": 18116,
+          "Conveyance Allowance": 1600,
+          "Special Allowance": 20343
+        },
+        "deductions": {
+          "Provident Fund": 1800,
+          "Professional Tax": 200,
+          "TDS": 0
+        },
+        "gross_earnings": 76290,
+        "total_deductions": 2000,
+        "net_pay": 74290
+      }
+    },
+    {
+      "doc_type": "PAYSLIP",
+      "extracted": {
+        "employee_name": "Logan Acharya",
+        "employer_name": "Codebridge IT Services Pvt Ltd",
+        "pay_month": "2026-06-01",
+        "earnings": {
+          "Basic": 36231,
+          "House Rent Allowance": 18116,
+          "Conveyance Allowance": 1600,
+          "Special Allowance": 20343
+        },
+        "deductions": {
+          "Provident Fund": 1800,
+          "Professional Tax": 200,
+          "TDS": 0
+        },
+        "gross_earnings": 76290,
+        "total_deductions": 2000,
+        "net_pay": 74290
+      }
+    },
+    {
+      "doc_type": "PAYSLIP",
+      "extracted": {
+        "employee_name": "Logan Acharya",
+        "employer_name": "Codebridge IT Services Pvt Ltd",
+        "pay_month": "2026-07-01",
+        "earnings": {
+          "Basic": 36231,
+          "House Rent Allowance": 18116,
+          "Conveyance Allowance": 1600,
+          "Special Allowance": 20343
+        },
+        "deductions": {
+          "Provident Fund": 1800,
+          "Professional Tax": 200,
+          "TDS": 0
+        },
+        "gross_earnings": 76290,
+        "total_deductions": 2000,
+        "net_pay": 74290
+      }
+    },
+    {
+      "doc_type": "BANK_STATEMENT",
+      "extracted": {
+        "account_holder_name": "Logan Acharya",
+        "bank_name": "State Bank of India",
+        "period_start": "2026-02-01",
+        "period_end": "2026-07-31",
+        "opening_balance": 49188.17,
+        "closing_balance": 173202.29,
+        "total_credits": 474530.55,
+        "total_debits": 350516.43,
+        "transactions": [
+          {
+            "date": "2026-02-01",
+            "narration": "UPI/DR/58749518896/AMAZON/amazon@apl",
+            "amount": -605.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-01",
+            "narration": "UPI/DR/92213473703/AMAZON/amazon@apl",
+            "amount": -440.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-01",
+            "narration": "UPI/DR/75208656027/UBER/uber@okhdfcbank",
+            "amount": -3190.99,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-01",
+            "narration": "UPI/DR/31528917033/UBER/uber@okhdfcbank",
+            "amount": -343,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-02",
+            "narration": "NEFT DR-RENT PAYMENT",
+            "amount": -16500,
+            "category": "rent_debit"
+          },
+          {
+            "date": "2026-02-02",
+            "narration": "UPI/DR/29351353342/LOCAL KIRANA STORE/kiranastore@okicici",
+            "amount": -864,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-03",
+            "narration": "POS/UBER",
+            "amount": -2423,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-02-06",
+            "narration": "UPI/DR/83631346642/NETFLIX/netflix@okaxis",
+            "amount": -121,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-14",
+            "narration": "ATM WDL-SBIN",
+            "amount": -4000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-02-15",
+            "narration": "UPI/DR/56483405365/BLINKIT/blinkit@ybl",
+            "amount": -3064.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-19",
+            "narration": "UPI/DR/25646084405/ZOMATO/zomato@paytm",
+            "amount": -890,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-22",
+            "narration": "UPI/DR/72941531715/BIGBASKET/bigbasket@icici",
+            "amount": -1590.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-22",
+            "narration": "UPI/DR/85412137472/AMAZON/amazon@apl",
+            "amount": -1922.99,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-22",
+            "narration": "UPI/DR/55707740409/LOCAL KIRANA STORE/kiranastore@okicici",
+            "amount": -299,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-23",
+            "narration": "UPI/DR/23986474196/BOOKMYSHOW/bookmyshow@hdfcbank",
+            "amount": -339,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-02-26",
+            "narration": "ATM WDL-NWD",
+            "amount": -2000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-02-27",
+            "narration": "TRF FROM CODEBRIDGE IT SERVICES PVT LTD SALARY-FEB",
+            "amount": 74190,
+            "category": "salary_credit"
+          },
+          {
+            "date": "2026-02-27",
+            "narration": "TATACAP-EMI-N36180240",
+            "amount": -10800,
+            "category": "emi_debit"
+          },
+          {
+            "date": "2026-03-01",
+            "narration": "UPI/DR/62055112340/BIGBASKET/bigbasket@icici",
+            "amount": -1192,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-04",
+            "narration": "UPI/DR/35294140158/BOOKMYSHOW/bookmyshow@hdfcbank",
+            "amount": -1419,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-05",
+            "narration": "NEFT DR-RENT PAYMENT",
+            "amount": -16500,
+            "category": "rent_debit"
+          },
+          {
+            "date": "2026-03-05",
+            "narration": "UPI/DR/25356275015/BOOKMYSHOW/bookmyshow@hdfcbank",
+            "amount": -367,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-07",
+            "narration": "UPI/DR/92467985714/LOCAL KIRANA STORE/kiranastore@okicici",
+            "amount": -1447.99,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-07",
+            "narration": "UPI/DR/84938954937/ZOMATO/zomato@paytm",
+            "amount": -247,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-08",
+            "narration": "UPI/DR/75867337896/SWIGGY/swiggy@ybl",
+            "amount": -812.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-11",
+            "narration": "UPI/DR/34872411760/UBER/uber@okhdfcbank",
+            "amount": -279,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-11",
+            "narration": "MMT/SELF/XX3981",
+            "amount": -14215,
+            "category": "self_transfer"
+          },
+          {
+            "date": "2026-03-12",
+            "narration": "UPI/DR/56048349854/FLIPKART/flipkart@axb",
+            "amount": -1452,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-14",
+            "narration": "UPI/DR/16985430547/LOCAL KIRANA STORE/kiranastore@okicici",
+            "amount": -1116,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-17",
+            "narration": "MMT/SELF/XX3981",
+            "amount": 14215,
+            "category": "self_transfer"
+          },
+          {
+            "date": "2026-03-18",
+            "narration": "UPI/DR/32253185233/BLINKIT/blinkit@ybl",
+            "amount": -124,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-21",
+            "narration": "UPI/DR/70450088493/BLINKIT/blinkit@ybl",
+            "amount": -245,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-22",
+            "narration": "UPI/DR/43775886679/BLINKIT/blinkit@ybl",
+            "amount": -2374,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-22",
+            "narration": "UPI/DR/89772625606/UBER/uber@okhdfcbank",
+            "amount": -1037.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-22",
+            "narration": "ATM WDL-SBIN",
+            "amount": -2000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-03-22",
+            "narration": "UPI/DR/96695536669/BLINKIT/blinkit@ybl",
+            "amount": -520,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-24",
+            "narration": "UPI/DR/24819584682/BOOKMYSHOW/bookmyshow@hdfcbank",
+            "amount": -1080,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-25",
+            "narration": "POS/BLINKIT",
+            "amount": -397,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-03-25",
+            "narration": "UPI/DR/81470299934/FLIPKART/flipkart@axb",
+            "amount": -350,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-27",
+            "narration": "TRF FROM CODEBRIDGE IT SERVICES PVT LTD SALARY-MAR",
+            "amount": 75650,
+            "category": "salary_credit"
+          },
+          {
+            "date": "2026-03-27",
+            "narration": "TATACAP-EMI-N36352089",
+            "amount": -10800,
+            "category": "emi_debit"
+          },
+          {
+            "date": "2026-03-28",
+            "narration": "UPI/DR/94274125957/SWIGGY/swiggy@ybl",
+            "amount": -3149.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-29",
+            "narration": "UPI/DR/29306178276/AMAZON/amazon@apl",
+            "amount": -1114,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-29",
+            "narration": "UPI/DR/69662761421/UBER/uber@okhdfcbank",
+            "amount": -573,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-30",
+            "narration": "UPI/DR/96742346516/UBER/uber@okhdfcbank",
+            "amount": -557,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-31",
+            "narration": "UPI/DR/50177891519/NETFLIX/netflix@okaxis",
+            "amount": -1161,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-31",
+            "narration": "UPI/DR/22182192015/FLIPKART/flipkart@axb",
+            "amount": -590,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-31",
+            "narration": "UPI/DR/87248919249/NETFLIX/netflix@okaxis",
+            "amount": -140,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-03-31",
+            "narration": "UPI/DR/63022491319/UBER/uber@okhdfcbank",
+            "amount": -415,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-02",
+            "narration": "NEFT DR-RENT PAYMENT",
+            "amount": -16500,
+            "category": "rent_debit"
+          },
+          {
+            "date": "2026-04-02",
+            "narration": "ATM WDL-SBIN",
+            "amount": -5000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-04-02",
+            "narration": "UPI/DR/87044085850/SWIGGY/swiggy@ybl",
+            "amount": -267,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-05",
+            "narration": "UPI/DR/48126398953/BIGBASKET/bigbasket@icici",
+            "amount": -972,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-09",
+            "narration": "UPI/DR/18486336992/BLINKIT/blinkit@ybl",
+            "amount": -1450,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-10",
+            "narration": "UPI/DR/21083987990/BLINKIT/blinkit@ybl",
+            "amount": -438,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-12",
+            "narration": "UPI/DR/33303831097/AMAZON/amazon@apl",
+            "amount": -466,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-12",
+            "narration": "UPI/DR/88252430176/UBER/uber@okhdfcbank",
+            "amount": -1027,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-13",
+            "narration": "UPI/DR/80100519008/SWIGGY/swiggy@ybl",
+            "amount": -640,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-17",
+            "narration": "UPI/DR/90380404157/BIGBASKET/bigbasket@icici",
+            "amount": -342,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-18",
+            "narration": "UPI/DR/94093040425/ZOMATO/zomato@paytm",
+            "amount": -2022.99,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-19",
+            "narration": "UPI/DR/33147746256/ZOMATO/zomato@paytm",
+            "amount": -2139.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-19",
+            "narration": "UPI/DR/88314013878/FLIPKART/flipkart@axb",
+            "amount": -278,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-20",
+            "narration": "UPI/DR/19647525409/FLIPKART/flipkart@axb",
+            "amount": -1252,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-22",
+            "narration": "UPI/DR/38517029013/BOOKMYSHOW/bookmyshow@hdfcbank",
+            "amount": -619,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-25",
+            "narration": "UPI/DR/66815619232/NETFLIX/netflix@okaxis",
+            "amount": -1777.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-26",
+            "narration": "UPI/DR/78975698950/BOOKMYSHOW/bookmyshow@hdfcbank",
+            "amount": -404,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-26",
+            "narration": "UPI/DR/92977647754/BLINKIT/blinkit@ybl",
+            "amount": -1082.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-26",
+            "narration": "POS/LOCAL KIRANA STORE",
+            "amount": -4745,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-04-27",
+            "narration": "TATACAP-EMI-N35349051",
+            "amount": -10800,
+            "category": "emi_debit"
+          },
+          {
+            "date": "2026-04-27",
+            "narration": "UPI/DR/52698055498/SWIGGY/swiggy@ybl",
+            "amount": -1111,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-28",
+            "narration": "TRF FROM CODEBRIDGE IT SERVICES PVT LTD SALARY-APR",
+            "amount": 76887,
+            "category": "salary_credit"
+          },
+          {
+            "date": "2026-04-28",
+            "narration": "UPI/DR/76963793207/FLIPKART/flipkart@axb",
+            "amount": -1496,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-28",
+            "narration": "UPI/DR/88919695977/BLINKIT/blinkit@ybl",
+            "amount": -1499,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-28",
+            "narration": "UPI/DR/97704240765/BIGBASKET/bigbasket@icici",
+            "amount": -1279,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-30",
+            "narration": "ATM WDL-SBIN",
+            "amount": -2000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-04-30",
+            "narration": "UPI/DR/22451034007/NETFLIX/netflix@okaxis",
+            "amount": -1444,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-30",
+            "narration": "UPI/DR/68988411168/UBER/uber@okhdfcbank",
+            "amount": -1303,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-04-30",
+            "narration": "SB INT CREDIT",
+            "amount": 503.4,
+            "category": "interest_credit"
+          },
+          {
+            "date": "2026-05-02",
+            "narration": "NEFT DR-RENT PAYMENT",
+            "amount": -16500,
+            "category": "rent_debit"
+          },
+          {
+            "date": "2026-05-02",
+            "narration": "UPI/DR/65205196193/BOOKMYSHOW/bookmyshow@hdfcbank",
+            "amount": -1751.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-03",
+            "narration": "UPI/DR/93150589214/BLINKIT/blinkit@ybl",
+            "amount": -1548,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-03",
+            "narration": "UPI/DR/34000101158/AMAZON/amazon@apl",
+            "amount": -1388.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-03",
+            "narration": "POS/UBER",
+            "amount": -4609,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-05-06",
+            "narration": "UPI/DR/46824278806/LOCAL KIRANA STORE/kiranastore@okicici",
+            "amount": -1147,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-08",
+            "narration": "POS/NETFLIX",
+            "amount": -4391,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-05-09",
+            "narration": "UPI/DR/52568871258/BIGBASKET/bigbasket@icici",
+            "amount": -2592.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-09",
+            "narration": "UPI/DR/46884722254/BOOKMYSHOW/bookmyshow@hdfcbank",
+            "amount": -232.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-09",
+            "narration": "UPI/DR/82187716181/ZOMATO/zomato@paytm",
+            "amount": -993.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-14",
+            "narration": "UPI/DR/48291754866/LOCAL KIRANA STORE/kiranastore@okicici",
+            "amount": -258,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-17",
+            "narration": "UPI/DR/15573408272/ZOMATO/zomato@paytm",
+            "amount": -2643.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-17",
+            "narration": "UPI/DR/65099665373/LOCAL KIRANA STORE/kiranastore@okicici",
+            "amount": -602,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-23",
+            "narration": "UPI/DR/36715855924/AMAZON/amazon@apl",
+            "amount": -366.99,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-23",
+            "narration": "UPI/DR/88611163927/NETFLIX/netflix@okaxis",
+            "amount": -2034,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-27",
+            "narration": "TATACAP-EMI-N47245025",
+            "amount": -10800,
+            "category": "emi_debit"
+          },
+          {
+            "date": "2026-05-28",
+            "narration": "TRF FROM CODEBRIDGE IT SERVICES PVT LTD SALARY-MAY",
+            "amount": 74290,
+            "category": "salary_credit"
+          },
+          {
+            "date": "2026-05-30",
+            "narration": "UPI/DR/24476077225/SWIGGY/swiggy@ybl",
+            "amount": -477.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-05-30",
+            "narration": "ATM WDL-SBIN",
+            "amount": -3000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-06-02",
+            "narration": "NEFT DR-RENT PAYMENT",
+            "amount": -16500,
+            "category": "rent_debit"
+          },
+          {
+            "date": "2026-06-06",
+            "narration": "UPI/DR/16446627035/SWIGGY/swiggy@ybl",
+            "amount": -2594.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-07",
+            "narration": "UPI/DR/33018237401/NETFLIX/netflix@okaxis",
+            "amount": -640.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-07",
+            "narration": "UPI/DR/43157563836/FLIPKART/flipkart@axb",
+            "amount": -1328,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-09",
+            "narration": "ATM WDL-SBIN",
+            "amount": -3000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-06-12",
+            "narration": "POS/BIGBASKET",
+            "amount": -2415,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-06-13",
+            "narration": "UPI/DR/96664208155/NETFLIX/netflix@okaxis",
+            "amount": -1112,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-13",
+            "narration": "UPI/DR/87840268383/SWIGGY/swiggy@ybl",
+            "amount": -1043,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-15",
+            "narration": "UPI/DR/82691127807/BLINKIT/blinkit@ybl",
+            "amount": -1496,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-15",
+            "narration": "RTGS-SBIN0004521-06408966925743",
+            "amount": -9761,
+            "category": "self_transfer"
+          },
+          {
+            "date": "2026-06-19",
+            "narration": "UPI/DR/46416849986/ZOMATO/zomato@paytm",
+            "amount": -1239,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-20",
+            "narration": "UPI/DR/95510310494/LOCAL KIRANA STORE/kiranastore@okicici",
+            "amount": -538.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-21",
+            "narration": "UPI/DR/62481296041/BIGBASKET/bigbasket@icici",
+            "amount": -3013.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-23",
+            "narration": "RTGS-SBIN0004521-06408966925743",
+            "amount": 9761,
+            "category": "self_transfer"
+          },
+          {
+            "date": "2026-06-26",
+            "narration": "TRF FROM CODEBRIDGE IT SERVICES PVT LTD SALARY-JUN",
+            "amount": 74290,
+            "category": "salary_credit"
+          },
+          {
+            "date": "2026-06-27",
+            "narration": "TATACAP-EMI-N26678909",
+            "amount": -10800,
+            "category": "emi_debit"
+          },
+          {
+            "date": "2026-06-27",
+            "narration": "UPI/DR/35803984212/SWIGGY/swiggy@ybl",
+            "amount": -2377.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-27",
+            "narration": "UPI/DR/60934183143/BOOKMYSHOW/bookmyshow@hdfcbank",
+            "amount": -1016,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-28",
+            "narration": "UPI/DR/13405629969/ZOMATO/zomato@paytm",
+            "amount": -1362,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-28",
+            "narration": "UPI/DR/93124087237/AMAZON/amazon@apl",
+            "amount": -2843.99,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-06-28",
+            "narration": "UPI/DR/89627017160/BIGBASKET/bigbasket@icici",
+            "amount": -1048,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-03",
+            "narration": "NEFT DR-RENT PAYMENT",
+            "amount": -16500,
+            "category": "rent_debit"
+          },
+          {
+            "date": "2026-07-04",
+            "narration": "UPI/DR/59773371658/UBER/uber@okhdfcbank",
+            "amount": -615,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-04",
+            "narration": "UPI/DR/11153225564/ZOMATO/zomato@paytm",
+            "amount": -2504,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-04",
+            "narration": "UPI/DR/58110317453/UBER/uber@okhdfcbank",
+            "amount": -1291.9,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-05",
+            "narration": "UPI/DR/78989151387/AMAZON/amazon@apl",
+            "amount": -1447.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-19",
+            "narration": "UPI/DR/24626989878/LOCAL KIRANA STORE/kiranastore@okicici",
+            "amount": -1410.99,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-19",
+            "narration": "UPI/DR/27847958932/UBER/uber@okhdfcbank",
+            "amount": -2999.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-19",
+            "narration": "UPI/DR/87899952687/BOOKMYSHOW/bookmyshow@hdfcbank",
+            "amount": -802.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-24",
+            "narration": "POS/NETFLIX",
+            "amount": -5903,
+            "category": "pos_spend"
+          },
+          {
+            "date": "2026-07-25",
+            "narration": "UPI/DR/75257332449/FLIPKART/flipkart@axb",
+            "amount": -1380.5,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-25",
+            "narration": "UPI/DR/75393101583/BIGBASKET/bigbasket@icici",
+            "amount": -603,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-26",
+            "narration": "UPI/DR/94615650905/ZOMATO/zomato@paytm",
+            "amount": -2062,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-26",
+            "narration": "UPI/DR/98649552001/BIGBASKET/bigbasket@icici",
+            "amount": -1325,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-27",
+            "narration": "TATACAP-EMI-N57242571",
+            "amount": -10800,
+            "category": "emi_debit"
+          },
+          {
+            "date": "2026-07-28",
+            "narration": "TRF FROM CODEBRIDGE IT SERVICES PVT LTD SALARY-JUL",
+            "amount": 74290,
+            "category": "salary_credit"
+          },
+          {
+            "date": "2026-07-28",
+            "narration": "ATM WDL-NWD",
+            "amount": -3000,
+            "category": "atm_withdrawal"
+          },
+          {
+            "date": "2026-07-30",
+            "narration": "UPI/DR/45141168827/ZOMATO/zomato@paytm",
+            "amount": -981,
+            "category": "upi_spend"
+          },
+          {
+            "date": "2026-07-31",
+            "narration": "SB INT CREDIT",
+            "amount": 454.15,
+            "category": "interest_credit"
+          }
+        ]
+      }
+    },
+    {
+      "doc_type": "FORM16",
+      "extracted": {
+        "employee_name": "Logan Acharya",
+        "pan_number": "ZMOPA4036Y",
+        "employer_name": "Codebridge IT Services Pvt Ltd",
+        "assessment_year": "2026-27",
+        "annual_gross": 957080,
+        "annual_tds": 0,
+        "quarters": [
+          {
+            "quarter": "Q1",
+            "tax_deducted": 0
+          },
+          {
+            "quarter": "Q2",
+            "tax_deducted": 0
+          },
+          {
+            "quarter": "Q3",
+            "tax_deducted": 0
+          },
+          {
+            "quarter": "Q4",
+            "tax_deducted": 0
+          }
+        ]
+      }
+    },
+    {
+      "doc_type": "PAN_CARD",
+      "extracted": {
+        "name": "Logan Acharya",
+        "father_name": "Nicholas Acharya",
+        "dob": "1995-09-12",
+        "pan_number": "ZMOPA4036Y"
+      }
+    },
+    {
+      "doc_type": "AADHAAR_CARD",
+      "extracted": {
+        "name": "LOGAN ACHARYA",
+        "dob": "1995-09-12",
+        "gender": "male",
+        "address": "92, Nagar Zila, Delhi 790820",
+        "aadhaar_last4": "9911"
+      }
+    },
+    {
+      "doc_type": "LOAN_APPLICATION",
+      "extracted": {
+        "name": "Logan Acharya",
+        "gender": "Male",
+        "dob": "1995-09-12",
+        "employer": "Codebridge IT Services Pvt Ltd",
+        "designation": "Senior Software Engineer",
+        "gross_monthly": 76290,
+        "net_monthly": 74290,
+        "loan_amount_requested": 346000.0,
+        "tenure_months": 48,
+        "purpose": "Wedding Expenses",
+        "liabilities": [
+          {
+            "lender": "Tata Capital Ltd",
+            "loan_type": "Auto Loan",
+            "loan_amount": 389000,
+            "emi_amount": 10800,
+            "emis_paid": 22,
+            "principal_outstanding": 151400
+          }
+        ]
+      }
+    }
+  ]
+}
