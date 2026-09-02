@@ -1,13 +1,24 @@
+import sys
 import uuid
 import traceback
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Optional
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from pydantic import BaseModel
 
 from src.workflow import create_loan_pipeline_graph
 from src.utils.assembly import find_missing_documents, build_applicant_block
-from src.database.mongo import applications_collection, verified_collection
+from src.database.mongo import (
+    applications_collection,
+    verified_collection,
+    comparison_results_collection,
+    step5_and_6_collection,
+    full_pipeline_collection,
+)
 
 app = FastAPI(title="Loan Document Processing Engine API")
 pipeline = create_loan_pipeline_graph()
@@ -47,16 +58,22 @@ async def execute_loan_workflow(
     missing_docs = find_missing_documents(extracted_docs)
     status = "INCOMPLETE" if missing_docs else "EXTRACTED"
 
-    validation_data = (
-        final_state["validation_report"].model_dump()
-        if hasattr(final_state.get("validation_report"), "model_dump")
-        else final_state.get("validation_report", {})
-    )
-    decision_data = (
-        final_state["underwriting_decision"].model_dump()
-        if hasattr(final_state.get("underwriting_decision"), "model_dump")
-        else final_state.get("underwriting_decision", {})
-    )
+    # Safely unpack DecisionResult from decision_result or validation_report
+    dec_raw = final_state.get("decision_result") or final_state.get("validation_report")
+    if hasattr(dec_raw, "model_dump"):
+        validation_data = dec_raw.model_dump()
+    elif isinstance(dec_raw, dict):
+        validation_data = dec_raw
+    else:
+        validation_data = {}
+
+    underwrite_raw = final_state.get("underwriting_decision")
+    if hasattr(underwrite_raw, "model_dump"):
+        decision_data = underwrite_raw.model_dump()
+    elif isinstance(underwrite_raw, dict):
+        decision_data = underwrite_raw
+    else:
+        decision_data = {}
 
     return {
         "application_id": application_id,
@@ -66,6 +83,7 @@ async def execute_loan_workflow(
         "requested_loan_amount": requested_amount,
         "extracted_documents": extracted_docs,
         "validation_report": validation_data,
+        "decision_result": validation_data,
         "underwriting_decision": decision_data,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "updated_at": datetime.now(timezone.utc).isoformat()
@@ -97,10 +115,55 @@ async def create_application(
             files=files
         )
 
-        # Persist copy to MongoDB
+        # Persist full records to MongoDB collections
         try:
             db_payload = dict(response_data)
             await applications_collection.insert_one(db_payload)
+
+            now_iso = datetime.now(timezone.utc).isoformat()
+            val_rep = response_data.get("validation_report") or {}
+
+            # Step 4 (Document Comparison)
+            step4_data = val_rep.get("step4_comparison") or {}
+            if step4_data:
+                await comparison_results_collection.update_one(
+                    {"application_id": application_id},
+                    {"$set": {**step4_data, "application_id": application_id, "updated_at": now_iso}},
+                    upsert=True,
+                )
+
+            # Step 5 & 6 Combined (Financials + Risk Engine)
+            step5_data = val_rep.get("step5_calculation") or {}
+            step6_data = val_rep.get("step6_risk_anomaly") or {}
+            if step5_data or step6_data:
+                await step5_and_6_collection.update_one(
+                    {"application_id": application_id},
+                    {"$set": {
+                        "application_id": application_id,
+                        "step5_calculation": step5_data,
+                        "step6_risk_anomaly": step6_data,
+                        "routing_color": val_rep.get("routing_color", "AMBER"),
+                        "risk_score": val_rep.get("risk_score", 0),
+                        "recommendation": val_rep.get("recommendation", "REVIEW"),
+                        "updated_at": now_iso,
+                    }},
+                    upsert=True,
+                )
+
+            # Full Pipeline Combined
+            await full_pipeline_collection.update_one(
+                {"application_id": application_id},
+                {"$set": {
+                    "application_id": application_id,
+                    "status": response_data.get("status"),
+                    "declared_monthly_income": declared_income,
+                    "requested_loan_amount": requested_amount,
+                    "validation_report": val_rep,
+                    "underwriting_decision": response_data.get("underwriting_decision"),
+                    "updated_at": now_iso,
+                }},
+                upsert=True,
+            )
         except Exception as db_err:
             print(f"⚠️ Warning: MongoDB write failed: {db_err}")
 
@@ -138,12 +201,14 @@ async def add_more_documents(
         all_docs = existing_app.get("extracted_documents", []) + new_result.get("extracted_documents", [])
         missing_docs = find_missing_documents(all_docs)
         status = "INCOMPLETE" if missing_docs else "EXTRACTED"
+        val_rep = new_result.get("validation_report") or {}
 
         update_fields = {
             "status": status,
             "missing_documents": missing_docs,
             "extracted_documents": all_docs,
-            "validation_report": new_result.get("validation_report"),
+            "validation_report": val_rep,
+            "decision_result": val_rep,
             "underwriting_decision": new_result.get("underwriting_decision"),
             "updated_at": datetime.now(timezone.utc).isoformat()
         }
@@ -151,6 +216,44 @@ async def add_more_documents(
         await applications_collection.update_one(
             {"application_id": application_id},
             {"$set": update_fields}
+        )
+
+        now_iso = datetime.now(timezone.utc).isoformat()
+        step4_data = val_rep.get("step4_comparison") or {}
+        if step4_data:
+            await comparison_results_collection.update_one(
+                {"application_id": application_id},
+                {"$set": {**step4_data, "application_id": application_id, "updated_at": now_iso}},
+                upsert=True,
+            )
+
+        step5_data = val_rep.get("step5_calculation") or {}
+        step6_data = val_rep.get("step6_risk_anomaly") or {}
+        if step5_data or step6_data:
+            await step5_and_6_collection.update_one(
+                {"application_id": application_id},
+                {"$set": {
+                    "application_id": application_id,
+                    "step5_calculation": step5_data,
+                    "step6_risk_anomaly": step6_data,
+                    "routing_color": val_rep.get("routing_color", "AMBER"),
+                    "risk_score": val_rep.get("risk_score", 0),
+                    "recommendation": val_rep.get("recommendation", "REVIEW"),
+                    "updated_at": now_iso,
+                }},
+                upsert=True,
+            )
+
+        await full_pipeline_collection.update_one(
+            {"application_id": application_id},
+            {"$set": {
+                "application_id": application_id,
+                "status": status,
+                "validation_report": val_rep,
+                "underwriting_decision": new_result.get("underwriting_decision"),
+                "updated_at": now_iso,
+            }},
+            upsert=True,
         )
 
         updated_record = await applications_collection.find_one(

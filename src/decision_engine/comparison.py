@@ -10,23 +10,27 @@ def compare_identity(
 ) -> List[FieldComparison]:
     results = []
 
-    # 1. Resolve Primary KYC Verified Name
     primary_kyc_name = verified.get("name")
     norm_kyc_name = normalize_name(primary_kyc_name)
+    seen_checks = set()
 
-    # 2. Cross-Document Verification (Payslips, Bank Statements, Form 16 vs Primary KYC)
+    # 1. Cross-Document Verification vs Primary KYC
     if all_docs and norm_kyc_name:
         for doc in all_docs:
-            doc_type = doc.get("document_type") or doc.get("doc_type", "UNKNOWN")
-            extracted = doc.get("extracted_data") or doc.get("extracted", {})
+            doc_type = (doc.get("document_type") or doc.get("doc_type") or "UNKNOWN").upper()
+            if doc_type in ["PAN_CARD", "IDENTITY_PROOF", "AADHAAR_CARD"]:
+                continue
 
+            extracted = doc.get("extracted_data") or doc.get("extracted", {})
             doc_name = (
                 extracted.get("employee_name")
                 or extracted.get("account_holder_name")
                 or extracted.get("taxpayer_name")
             )
 
-            if doc_name:
+            check_key = f"{doc_type}_{doc_name}"
+            if doc_name and check_key not in seen_checks:
+                seen_checks.add(check_key)
                 norm_doc_name = normalize_name(doc_name)
 
                 if norm_doc_name == norm_kyc_name:
@@ -55,7 +59,7 @@ def compare_identity(
                             ),
                             Evidence(
                                 source_document=doc_type,
-                                source_path="employee_name/account_holder_name/taxpayer_name",
+                                source_path="employee_name/account_holder_name",
                                 field="name",
                                 value=doc_name,
                                 evidence_type="VERIFIED",
@@ -65,7 +69,7 @@ def compare_identity(
                     )
                 )
 
-    # 3. Declared Application Form vs Primary KYC Check
+    # 2. Declared vs KYC Check
     declared_name = declared.get("name")
     d_name = normalize_name(declared_name)
 
@@ -87,27 +91,12 @@ def compare_identity(
             normalized_verified=norm_kyc_name,
             status=name_status,
             comparison_method="DETERMINISTIC",
-            evidence=[
-                Evidence(
-                    source_document="LOAN_APPLICATION",
-                    source_path="documents[].extracted.name",
-                    field="name",
-                    value=declared_name,
-                    evidence_type="DECLARED",
-                ),
-                Evidence(
-                    source_document="PRIMARY_KYC",
-                    source_path="documents[].extracted.name",
-                    field="name",
-                    value=primary_kyc_name,
-                    evidence_type="VERIFIED",
-                ),
-            ],
-            reason=f"Declared application name '{d_name}' vs KYC record '{norm_kyc_name}'.",
+            evidence=[],
+            reason=f"Declared name '{d_name}' vs KYC record '{norm_kyc_name}'.",
         )
     )
 
-    # 4. Date of Birth Check
+    # 3. DOB Check
     declared_dob = normalize_dob(declared.get("dob"))
     verified_dob = normalize_dob(verified.get("dob"))
 
@@ -162,23 +151,8 @@ def compare_income(declared: Dict[str, Any], verified: Dict[str, Any]) -> FieldC
         discrepancy_amount=round(difference, 2),
         discrepancy_percent=percentage,
         comparison_method="DETERMINISTIC",
-        evidence=[
-            Evidence(
-                source_document="LOAN_APPLICATION",
-                source_path="documents[].extracted.net_monthly",
-                field="net_monthly_income",
-                value=declared_income,
-                evidence_type="DECLARED",
-            ),
-            Evidence(
-                source_document="PAYSLIP",
-                source_path="documents[].extracted.net_pay",
-                field="net_monthly_income",
-                value=verified_income,
-                evidence_type="VERIFIED",
-            ),
-        ],
-        reason=f"Difference = Rs. {difference:.2f}, percentage difference = {percentage}%.",
+        evidence=[],
+        reason=f"Difference = Rs. {difference:.2f}, variance = {percentage}%.",
     )
 
 
@@ -203,29 +177,13 @@ def compare_employer(declared: Dict[str, Any], verified: Dict[str, Any]) -> Fiel
         normalized_verified=verified_employer,
         status=status,
         comparison_method="DETERMINISTIC",
-        evidence=[
-            Evidence(
-                source_document="LOAN_APPLICATION",
-                source_path="documents[].extracted.employer",
-                field="employer",
-                value=declared.get("employer"),
-                evidence_type="DECLARED",
-            ),
-            Evidence(
-                source_document="PAYSLIP/FORM16",
-                source_path="documents[].extracted.employer_name",
-                field="employer",
-                value=verified.get("employer"),
-                evidence_type="VERIFIED",
-            ),
-        ],
+        evidence=[],
         reason="Normalized employer comparison.",
     )
 
 
-def compare_pan(payload: Dict[str, Any], verified: Dict[str, Any]) -> FieldComparison:
-    applicant = payload.get("applicant", {})
-    declared_pan = normalize_pan(applicant.get("pan_number"))
+def compare_pan(declared: Dict[str, Any], verified: Dict[str, Any]) -> FieldComparison:
+    declared_pan = normalize_pan(declared.get("pan_number") or declared.get("pan"))
     verified_pan = normalize_pan(verified.get("pan_number"))
 
     if not declared_pan or not verified_pan:
@@ -244,5 +202,5 @@ def compare_pan(payload: Dict[str, Any], verified: Dict[str, Any]) -> FieldCompa
         status=status,
         comparison_method="DETERMINISTIC",
         evidence=[],
-        reason="Exact PAN comparison.",
+        reason=f"PAN match check: Declared '{declared_pan}' vs Verified '{verified_pan}'.",
     )

@@ -4,240 +4,337 @@ import json
 import pandas as pd
 
 st.set_page_config(
-    page_title="AI Loan Underwriting Workbench",
+    page_title="Intelligent Loan Underwriting Workbench",
     page_icon="🏦",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# --- Custom Styling ---
+# --- Professional Banking Workbench Styling ---
 st.markdown("""
 <style>
+    .reportview-container { background: #fdfdfd; }
     .metric-card {
-        background-color: #f8f9fa;
+        background-color: #ffffff;
         border-radius: 8px;
-        padding: 15px;
-        border-left: 5px solid #1E88E5;
-        margin-bottom: 10px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        border: 1px solid #e0e0e0;
+        margin-bottom: 12px;
     }
-    .badge-approved { background-color: #e8f5e9; color: #2e7d32; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
-    .badge-review { background-color: #fff3e0; color: #ef6c00; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
-    .badge-rejected { background-color: #ffebee; color: #c62828; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
-    .badge-incomplete { background-color: #fff8e1; color: #f57f17; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+    .badge-approved { background-color: #e8f5e9; color: #2e7d32; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: 1px solid #a5d6a7; display: inline-block; }
+    .badge-review { background-color: #fff3e0; color: #ef6c00; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: 1px solid #ffcc80; display: inline-block; }
+    .badge-rejected { background-color: #ffebee; color: #c62828; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: 1px solid #ef9a9a; display: inline-block; }
+    .badge-incomplete { background-color: #fff8e1; color: #f57f17; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: 1px solid #ffe082; display: inline-block; }
+    
+    .badge-green { background-color: #d4edda; color: #155724; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: 1px solid #c3e6cb; display: inline-block; }
+    .badge-amber { background-color: #fff3cd; color: #856404; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: 1px solid #ffeeba; display: inline-block; }
+    .badge-red { background-color: #f8d7da; color: #721c24; padding: 6px 12px; border-radius: 6px; font-weight: 700; border: 1px solid #f5c6cb; display: inline-block; }
 </style>
 """, unsafe_allow_html=True)
 
 API_BASE_URL = "http://127.0.0.1:8000"
 
-# --- Session State Setup ---
 if "application_results" not in st.session_state:
     st.session_state.application_results = None
 if "is_processing" not in st.session_state:
     st.session_state.is_processing = False
 
 st.sidebar.title("🏦 Underwriting Ops")
-nav_selection = st.sidebar.radio("Navigation", ["Application Intake", "Audit & Analytics"])
+nav_selection = st.sidebar.radio("Navigation", ["Application Intake & Underwriting", "Audit & Analytics"])
 
 # ==========================================
 # PAGE 1: INTAKE & VERIFICATION WORKBENCH
 # ==========================================
-if nav_selection == "Application Intake":
-    st.title("📄 AI-Powered Loan Document Ingestion")
-    st.caption("Upload loan application files (PDF/Images) for automated multimodal extraction, incompleteness validation, and underwriting.")
+if nav_selection == "Application Intake & Underwriting":
+    st.title("📄 Intelligent Loan Document Processing Engine")
+    st.caption("Automated multimodal extraction, deterministic TRACE credit underwriting, forensic balance verification, and human audit.")
 
-    # Top Parameters Bar
-    with st.container():
+    # Top Parameters Bar (Optional Manual Override - Defaults to Automated Extraction from Loan Application Form)
+    with st.expander("⚙️ Manual Form Overrides (Optional — Defaults to Auto-Extraction from Documents)", expanded=False):
+        st.caption("Leave disabled to let the engine read Declared Income and Requested Loan Amount directly from the submitted Loan Application Form.")
+        use_manual_override = st.checkbox("Enable manual parameter overrides", value=False)
         col_inc, col_amt = st.columns(2)
         with col_inc:
-            declared_income = st.number_input("Declared Monthly Income (₹)", min_value=1000.0, value=95000.0, step=5000.0)
+            declared_income = st.number_input(
+                "Declared Monthly Net Income (₹)", 
+                min_value=0.0, 
+                value=0.0, 
+                step=5000.0,
+                disabled=not use_manual_override
+            )
         with col_amt:
-            requested_amount = st.number_input("Requested Loan Amount (₹)", min_value=10000.0, value=500000.0, step=25000.0)
+            requested_amount = st.number_input(
+                "Requested Loan Amount (₹)", 
+                min_value=0.0, 
+                value=0.0, 
+                step=25000.0,
+                disabled=not use_manual_override
+            )
 
-    # Multi-file Uploader
+    # Multi-file Ingestion
     uploaded_files = st.file_uploader(
-        "Upload Borrower Documents (KYC, Salary Slips, Bank Statements, Tax Returns)",
+        "Upload Borrower Package (PAN, Identity Proof, 3-Month Payslips, Form 16, Bank Statement)",
         type=["pdf", "png", "jpg", "jpeg"],
         accept_multiple_files=True
     )
 
     if uploaded_files:
-        if st.button("🚀 Process Full Loan Package", type="primary", disabled=st.session_state.is_processing):
+        if st.button("🚀 Ingest & Process Loan Package", type="primary", disabled=st.session_state.is_processing):
             st.session_state.is_processing = True
-            with st.spinner("Executing Pipeline: Classifying, Extracting & Validating Completeness..."):
+            with st.spinner("Executing Pipeline: Classifying documents, verifying cross-identity, calculating math & evaluating rules..."):
                 multipart_files = [
                     ("files", (file.name, file.getvalue(), file.type)) 
                     for file in uploaded_files
                 ]
                 data_payload = {
-                    "declared_income": declared_income,
-                    "requested_amount": requested_amount
+                    "declared_income": declared_income if use_manual_override else 0.0,
+                    "requested_amount": requested_amount if use_manual_override else 0.0
                 }
 
                 try:
                     res = requests.post(
                         f"{API_BASE_URL}/applications",
                         data=data_payload,
-                        files=multipart_files
+                        files=multipart_files,
+                        timeout=300
                     )
                     if res.status_code == 200:
                         st.session_state.application_results = res.json()
-                        st.success("✅ Application successfully processed!")
+                        st.session_state.error_message = None
+                        st.success("✅ Application package processed and evaluated successfully!")
                     else:
-                        st.error(f"Error {res.status_code}: {res.text}")
+                        st.session_state.error_message = f"Backend Error ({res.status_code}): {res.text}"
+                        st.error(st.session_state.error_message)
                 except requests.exceptions.ConnectionError:
-                    st.error("🚫 Backend unreachable. Make sure FastAPI is running on port 8000.")
+                    st.session_state.error_message = "🚫 Backend unreachable. Make sure FastAPI server is running on port 8000."
+                    st.error(st.session_state.error_message)
+                except Exception as ex:
+                    st.session_state.error_message = f"❌ Error: {str(ex)}"
+                    st.error(st.session_state.error_message)
 
             st.session_state.is_processing = False
-            st.rerun()
+            if st.session_state.application_results:
+                st.rerun()
 
-    # --- Underwriter Review Dashboard ---
+    # --- Underwriter Dashboard ---
     if st.session_state.application_results:
         results = st.session_state.application_results
-        decision = results.get("underwriting_decision", {})
-        decision_res = results.get("validation_report") or results.get("decision_result", {})
-        app_id = results.get("application_id")
+        app_id = results.get("application_id", "UNKNOWN")
         app_status = results.get("status", "UNKNOWN")
         missing_docs = results.get("missing_documents", [])
 
-        st.markdown("---")
-        st.header("📋 Underwriting Executive Summary")
-        st.info(f"**Application ID:** `{app_id}`")
+        val_rep = results.get("validation_report") or {}
+        underwriting = results.get("underwriting_decision") or {}
 
-        # Missing Documents Alert Banner
+        # Nested payloads resolution
+        step4_comp = val_rep.get("step4_comparison") or {}
+        step5_calc = val_rep.get("step5_calculation") or {}
+        step6_risk = val_rep.get("step6_risk_anomaly") or {}
+
+        inc_metrics = step5_calc.get("income_metrics", {})
+        ob_metrics = step5_calc.get("obligation_metrics", {})
+        stmt_metrics = step5_calc.get("statement_validation", {})
+        elig_metrics = step5_calc.get("eligibility_result", {})
+
+        # Robust metric resolution across both flat and step structures
+        dti_val = float(val_rep.get("dti_percent") if val_rep.get("dti_percent") is not None else (ob_metrics.get("dti_percent") or 0.0))
+        risk_lvl = val_rep.get("risk_level") or step6_risk.get("risk_grade") or "N/A"
+        inc_variance = float(val_rep.get("income_difference_percent") if val_rep.get("income_difference_percent") is not None else (inc_metrics.get("income_difference_percent") or 0.0))
+        risk_score = float(val_rep.get("risk_score") if val_rep.get("risk_score") is not None else (step6_risk.get("risk_score") if step6_risk.get("risk_score") is not None else 0.0))
+        routing_color = (val_rep.get("routing_color") or step6_risk.get("routing_color") or "AMBER").upper()
+        routing_reason = val_rep.get("routing_reason") or step6_risk.get("routing_reason") or ""
+        verdict = underwriting.get("verdict") or ("APPROVED" if routing_color == "GREEN" else ("REJECTED" if routing_color == "RED" else "REVIEW"))
+
+        stmt_stat = val_rep.get("statement_arithmetic_status") or stmt_metrics.get("status", "NOT_AVAILABLE")
+        stmt_diff = float(val_rep.get("statement_arithmetic_difference") or stmt_metrics.get("difference_amount", 0.0))
+
+        st.markdown("---")
+        st.header(f"📋 Underwriting Executive Summary — `{app_id}`")
+
+        # Missing Document Alert Banner
         if app_status == "INCOMPLETE" or missing_docs:
-            st.warning(f"⚠️ **Incomplete Application Package:** Missing mandatory document(s): `{', '.join(missing_docs)}`")
-            
-            # Incremental Document Upload Section
-            with st.expander("➕ Upload Additional Missing Documents to this Application", expanded=True):
+            st.warning(f"⚠️ **Incomplete Document Package:** Missing mandatory document(s): `{', '.join(missing_docs)}`")
+            with st.expander("➕ Incremental Document Ingestion", expanded=True):
                 incremental_files = st.file_uploader(
-                    "Select additional files to append:",
+                    "Select missing files to append to this application:",
                     type=["pdf", "png", "jpg", "jpeg"],
                     accept_multiple_files=True,
-                    key="incremental_file_uploader"
+                    key="inc_uploader"
                 )
-                if incremental_files and st.button("📤 Append Documents to Application"):
-                    with st.spinner("Appending new files and re-evaluating application..."):
-                        inc_multipart = [
-                            ("files", (file.name, file.getvalue(), file.type))
-                            for file in incremental_files
-                        ]
-                        try:
-                            inc_res = requests.post(
-                                f"{API_BASE_URL}/applications/{app_id}/documents",
-                                files=inc_multipart
-                            )
-                            if inc_res.status_code == 200:
-                                st.session_state.application_results = inc_res.json()
-                                st.success("✅ Documents appended and package re-evaluated!")
-                                st.rerun()
-                            else:
-                                st.error(f"Error: {inc_res.text}")
-                        except requests.exceptions.ConnectionError:
-                            st.error("🚫 Backend unreachable.")
+                if incremental_files and st.button("📤 Upload & Re-Evaluate Package"):
+                    inc_multipart = [("files", (f.name, f.getvalue(), f.type)) for f in incremental_files]
+                    try:
+                        inc_res = requests.post(f"{API_BASE_URL}/applications/{app_id}/documents", files=inc_multipart)
+                        if inc_res.status_code == 200:
+                            st.session_state.application_results = inc_res.json()
+                            st.success("✅ Application updated and re-evaluated!")
+                            st.rerun()
+                    except Exception as err:
+                        st.error(f"Error appending files: {err}")
 
-        # Top Metric Cards
+        # Primary Key Metrics Bar
         m1, m2, m3, m4 = st.columns(4)
-        verdict = decision.get("verdict", "UNKNOWN")
-        dti_val = decision_res.get("dti_percent", decision_res.get("calculated_dti", 0.0))
-        risk_lvl = decision_res.get("risk_level", decision_res.get("dti_risk_level", "N/A"))
-        inc_variance = decision_res.get("income_difference_percent", decision_res.get("income_variance_pct", 0.0))
-        risk_score = decision_res.get("risk_score", 0)
-
         with m1:
-            st.markdown("**Underwriting Verdict**")
+            st.markdown("**Underwriting Decision**")
             if verdict == "APPROVED":
                 st.markdown("<span class='badge-approved'>APPROVED</span>", unsafe_allow_html=True)
-            elif verdict == "CONDITIONALLY_APPROVED":
-                st.markdown("<span class='badge-review'>CONDITIONALLY APPROVED</span>", unsafe_allow_html=True)
             elif verdict == "REJECTED":
                 st.markdown("<span class='badge-rejected'>REJECTED</span>", unsafe_allow_html=True)
             else:
-                st.markdown(f"<span class='badge-incomplete'>{app_status}</span>", unsafe_allow_html=True)
+                st.markdown("<span class='badge-review'>MANUAL REVIEW</span>", unsafe_allow_html=True)
+            
+            st.write("")
+            if routing_color == "GREEN":
+                st.markdown("<span class='badge-green'>🟢 Fast-Track (STP)</span>", unsafe_allow_html=True)
+            elif routing_color == "RED":
+                st.markdown("<span class='badge-red'>🔴 Hard Reject</span>", unsafe_allow_html=True)
+            else:
+                st.markdown("<span class='badge-amber'>🟡 Amber Review</span>", unsafe_allow_html=True)
 
         with m2:
-            st.metric("Calculated DTI", f"{dti_val:.1f}%", f"Risk: {risk_lvl}")
+            st.metric(label="Calculated DTI / FOIR", value=f"{dti_val:.1f}%", delta=f"Risk: {risk_lvl}", delta_color="inverse" if dti_val > 50 else "normal")
+            existing_e = ob_metrics.get('total_existing_emis') or val_rep.get('total_existing_emis', 0.0)
+            prop_e = ob_metrics.get('proposed_emi') or val_rep.get('proposed_emi', 0.0)
+            st.caption(f"Existing EMI: ₹{existing_e:,.0f} | Proposed: ₹{prop_e:,.0f}")
+
         with m3:
-            st.metric("Income Variance", f"{inc_variance:.1f}%")
-        with m4:
-            st.metric("Risk Penalty Score", f"{risk_score}/100")
-
-        # Executive Rationale & Flags
-        if decision.get("executive_rationale"):
-            st.markdown(f"**Executive Rationale:** {decision.get('executive_rationale')}")
-
-        if decision.get("conditions"):
-            st.warning("⚠️ **Approval Conditions:**\n" + "\n".join([f"- {c}" for c in decision["conditions"]]))
-        if decision.get("adverse_action_reasons"):
-            st.error("❌ **Adverse Action Reasons:**\n" + "\n".join([f"- {r}" for r in decision["adverse_action_reasons"]]))
-
-        # Anomaly Findings Section
-        anomalies = decision_res.get("anomalies", [])
-        if anomalies:
-            st.markdown("##### 🚨 Policy Anomalies Detected")
-            for anom in anomalies:
-                st.warning(f"**[{anom.get('code')}]** ({anom.get('severity')} Severity): {anom.get('description')}")
-
-        # Individual Document Inspection (HITL)
-        st.markdown("---")
-        st.subheader("📑 Document Verification & Human Review")
-        
-        docs = results.get("extracted_documents", [])
-        if not docs:
-            st.info("No documents parsed yet.")
+            st.metric(label="Income Variance", value=f"{inc_variance:.1f}%", delta="Clean Match" if inc_variance == 0 else f"{inc_variance:.1f}% gap", delta_color="off" if inc_variance <= 5 else "inverse")
+            ver_net = inc_metrics.get('effective_verified_income') or val_rep.get('verified_monthly_net', 0.0)
+            st.caption(f"Verified Net: ₹{ver_net:,.0f}/mo")
             
-        for i, doc in enumerate(docs):
-            filename = doc.get("filename")
-            doc_type = doc.get("document_type") or doc.get("doc_type", "UNKNOWN")
-            confidence = doc.get("confidence", 1.0) * 100
-            extracted = doc.get("extracted_data") or doc.get("extracted", {})
+        with m4:
+            st.metric(label="Credit Risk Score", value=f"{int(risk_score)}/100", delta=f"{routing_color} Tier")
+            st.caption("Policy standard baseline: 100 pts")
 
-            with st.expander(f"**{doc_type}** — `{filename}` (Confidence: {confidence:.1f}%)"):
-                with st.form(key=f"form_doc_{i}"):
-                    st.markdown("##### Extracted Field Editor")
-                    edited_fields = {}
+        # Statement Balance Tamper Callout
+        if stmt_stat == "MATCH":
+            st.success("✅ **Bank Statement Arithmetic Reconciled:** Opening Balance + Total Credits − Total Debits == Stated Closing Balance.")
+        elif stmt_stat == "MISMATCH":
+            st.error(f"🚨 **Potential Statement Alteration / Tampering Detected:** Mathematical discrepancy of ₹{stmt_diff:,.2f} between calculated balance and closing balance.")
 
-                    cols = st.columns(2)
-                    for idx, (field_name, field_val) in enumerate(extracted.items()):
-                        target_col = cols[idx % 2]
-                        edited_fields[field_name] = target_col.text_input(
-                            label=field_name.replace("_", " ").title(),
-                            value=str(field_val) if field_val is not None else "",
-                            key=f"{app_id}_{i}_{field_name}"
-                        )
+        # Executive Rationale & Reasons
+        if underwriting.get("executive_rationale"):
+            st.info(f"💡 **Executive Underwriting Rationale:** {underwriting.get('executive_rationale')}")
+        if underwriting.get("conditions"):
+            st.warning("⚠️ **Approval Conditions:**\n" + "\n".join([f"- {c}" for c in underwriting["conditions"]]))
+        if underwriting.get("adverse_action_reasons"):
+            st.error("❌ **Adverse Action Disqualification Reasons:**\n" + "\n".join([f"- {r}" for r in underwriting["adverse_action_reasons"]]))
 
-                    save_btn = st.form_submit_button("💾 Save Verified Document Data")
-                    if save_btn:
-                        payload = {
-                            "application_id": app_id,
-                            "filename": filename,
-                            "original_extracted_data": extracted,
-                            "verified_data": edited_fields
-                        }
-                        try:
-                            save_res = requests.post(f"{API_BASE_URL}/api/save-verified-document/", json=payload)
-                            if save_res.status_code == 200:
-                                st.success(f"✅ Verified data for `{filename}` committed to MongoDB!")
-                            else:
-                                st.error(f"Failed to save: {save_res.text}")
-                        except requests.exceptions.ConnectionError:
-                            st.error("🚫 Backend unreachable.")
+        # --- Detailed Inspection Tabs ---
+        tab_reconcile, tab_factors, tab_checklist, tab_docs = st.tabs([
+            "📊 Step 4: Identity & Data Reconciliation",
+            "🔍 Step 5 & 6: Math & Scoring Breakdown",
+            "📋 Underwriter Sign-off Checklist",
+            "📑 Raw Document Extractor & HITL Editor"
+        ])
+
+        with tab_reconcile:
+            st.subheader("Cross-Document Field Matching Matrix")
+            comparisons = step4_comp.get("comparisons") or val_rep.get("discrepancies") or []
+            if comparisons:
+                rows = []
+                for c in comparisons:
+                    rows.append({
+                        "Field Inspected": c.get("field"),
+                        "Declared (App Form)": str(c.get("declared_value") or "N/A"),
+                        "Verified (Proofs)": str(c.get("verified_value") or "N/A"),
+                        "Match Status": c.get("status"),
+                        "Method": c.get("comparison_method"),
+                        "Audit Rationale": c.get("reason")
+                    })
+                st.dataframe(pd.DataFrame(rows), use_container_width=True)
+            else:
+                st.info("No cross-document discrepancy items recorded.")
+
+        with tab_factors:
+            st.subheader("100-Point Deterministic Risk Ledger")
+            factors = step6_risk.get("factor_breakdown") or val_rep.get("factor_breakdown") or {}
+            if factors:
+                f1, f2, f3, f4 = st.columns(4)
+                f1.metric("Base Score", f"{factors.get('base_score', 100):.0f}")
+                f2.metric("Major Deductions", f"{factors.get('major_anomalies_deduction', 0):.0f} pts")
+                f3.metric("Moderate Deductions", f"{factors.get('moderate_anomalies_deduction', 0):.0f} pts")
+                f4.metric("Arithmetic Penalty", f"{factors.get('statement_arithmetic_deduction', 0):.0f} pts")
+
+            cf_note = step6_risk.get("counterfactual_note") or val_rep.get("counterfactual_note")
+            if cf_note:
+                st.info(f"🧭 **Counterfactual Guidance:** {cf_note}")
+
+            # Anomalies
+            anomalies = step6_risk.get("anomalies") or val_rep.get("anomalies") or []
+            if anomalies:
+                st.markdown("##### 🚨 Policy Anomalies Identified")
+                for anom in anomalies:
+                    st.warning(f"**[{anom.get('code')}]** ({anom.get('severity')} Severity): {anom.get('description')}")
+            else:
+                st.success("✅ Zero critical policy anomalies detected.")
+
+        with tab_checklist:
+            st.subheader("Mandatory Compliance Checklist")
+            checklist = step6_risk.get("reviewer_checklist") or val_rep.get("reviewer_checklist") or []
+            if checklist:
+                for idx, item in enumerate(checklist):
+                    st.checkbox(item, key=f"chk_step_{app_id}_{idx}")
+            else:
+                st.checkbox("Confirm identity match across all submitted KYC proofs", key=f"chk_1_{app_id}")
+                st.checkbox("Verify zero undisclosed loans in banking ledger", key=f"chk_2_{app_id}")
+                st.checkbox("Sign off on final disbursement", key=f"chk_3_{app_id}")
+
+        with tab_docs:
+            st.subheader("Extracted Documents & Human-In-The-Loop Editor")
+            docs = results.get("extracted_documents", [])
+            for i, doc in enumerate(docs):
+                fname = doc.get("filename")
+                dtype = doc.get("document_type") or doc.get("doc_type", "UNKNOWN")
+                conf = float(doc.get("confidence", 1.0)) * 100
+                extracted = doc.get("extracted_data") or doc.get("extracted", {})
+
+                with st.expander(f"📄 **{dtype}** — `{fname}` (Confidence: {conf:.1f}%)"):
+                    with st.form(key=f"hitl_form_{i}_{app_id}"):
+                        st.markdown("##### Edit & Verify OCR Values")
+                        edited_fields = {}
+                        cols = st.columns(2)
+                        for idx, (k, v) in enumerate(extracted.items()):
+                            col = cols[idx % 2]
+                            edited_fields[k] = col.text_input(
+                                label=k.replace("_", " ").title(),
+                                value=str(v) if v is not None else "",
+                                key=f"inp_{app_id}_{i}_{k}"
+                            )
+
+                        if st.form_submit_button("💾 Save Verified Field Data"):
+                            save_payload = {
+                                "application_id": app_id,
+                                "filename": fname,
+                                "original_extracted_data": extracted,
+                                "verified_data": edited_fields
+                            }
+                            try:
+                                s_res = requests.post(f"{API_BASE_URL}/api/save-verified-document/", json=save_payload)
+                                if s_res.status_code == 200:
+                                    st.success(f"Verified edits for `{fname}` committed to MongoDB audit logs!")
+                                else:
+                                    st.error(f"Failed to persist: {s_res.text}")
+                            except Exception as err:
+                                st.error(f"Save error: {err}")
 
 # ==========================================
 # PAGE 2: AUDIT & HISTORICAL ANALYTICS
 # ==========================================
 elif nav_selection == "Audit & Analytics":
-    st.title("📊 Loan Processing History & Compliance Audit")
-    st.caption("Inspect persisted records from MongoDB for compliance checks and data reconciliation.")
-    
-    search_app_id = st.text_input("Enter Application ID to inspect (e.g., APP-xxxx):")
-    if search_app_id and st.button("🔍 Search Record"):
+    st.title("📊 Compliance Audit & Database Records")
+    st.caption("Inspect live MongoDB Atlas collections for regulatory traceability and decision audit logs.")
+
+    search_id = st.text_input("Enter Application ID (e.g., APP-xxxx):")
+    if search_id and st.button("🔍 Fetch Record"):
         try:
-            lookup_res = requests.get(f"{API_BASE_URL}/applications/{search_app_id.strip()}")
-            if lookup_res.status_code == 200:
-                record = lookup_res.json()
-                st.success(f"✅ Application `{search_app_id}` Found!")
+            lookup = requests.get(f"{API_BASE_URL}/applications/{search_id.strip()}")
+            if lookup.status_code == 200:
+                record = lookup.json()
+                st.success(f"✅ Record Found for `{search_id}`")
                 st.json(record)
             else:
-                st.error("Application not found in database.")
+                st.error(f"Application ID `{search_id}` not found.")
         except requests.exceptions.ConnectionError:
             st.error("🚫 Backend unreachable.")

@@ -55,6 +55,31 @@ class DecisionResult(BaseModel):
     risk_score: int
     risk_level: RiskLevel
     recommendation: RiskRecommendation
+
+    # Enriched Routing & Risk Intelligence
+    routing_color: Literal["GREEN", "AMBER", "RED"] = "AMBER"
+    routing_reason: str = ""
+    requires_human_signoff: bool = True
+    disposable_income: float = 0.0
+    total_existing_emis: float = 0.0
+    proposed_emi: float = 0.0
+
+    # Statement Reconciliation & Eligibility
+    statement_arithmetic_status: str = "NOT_AVAILABLE"
+    statement_arithmetic_difference: float = 0.0
+    eligibility_passed: bool = True
+    eligibility_reasons: List[str] = Field(default_factory=list)
+
+    # Factors & Audit
+    factor_breakdown: Dict[str, Any] = Field(default_factory=dict)
+    reviewer_checklist: List[str] = Field(default_factory=list)
+    counterfactual_note: Optional[str] = None
+
+    # Step Data Payloads
+    step4_comparison: Optional[Dict[str, Any]] = None
+    step5_calculation: Optional[Dict[str, Any]] = None
+    step6_risk_anomaly: Optional[Dict[str, Any]] = None
+
     discrepancies: List[FieldComparison] = Field(default_factory=list)
     anomalies: List[Anomaly] = Field(default_factory=list)
     risk_factors: List[RiskFactor] = Field(default_factory=list)
