@@ -1,4 +1,4 @@
-# Intelligent Loan Document Processing Pipeline 🏦
+#  Loan Document Processing using GenAI 🏦
 
 An end-to-end multimodal agentic pipeline built with **LangGraph**, **Google Gemini Vision**, **FastAPI**, **Streamlit**, and **MongoDB Atlas** to automate document classification, structured data extraction, cross-document verification, policy risk scoring, and credit underwriting.
 
