@@ -80,9 +80,9 @@ def calculate_income_metrics(
 #                      − Existing EMIs
 #
 #   FOIR Zones:
-#     SAFE     → FOIR ≤ (threshold − buffer)
-#     STRETCH  → (threshold − buffer) < FOIR ≤ threshold
-#     BREACH   → threshold < FOIR ≤ max_acceptable (60%)
+#     SAFE     → FOIR ≤ (applicable_threshold − buffer)
+#     STRETCH  → (applicable_threshold − buffer) < FOIR ≤ applicable_threshold
+#     BREACH   → applicable_threshold < FOIR ≤ high_risk_threshold (65%)
 #     CRITICAL → FOIR > high_risk_threshold (65%)
 # ---------------------------------------------------------------------------
 
@@ -115,14 +115,13 @@ def _classify_foir_zone(
     foir_pct: float,
     applicable_threshold: float,
     buffer_pct: float,
-    max_acceptable_pct: float,
     high_risk_pct: float,
 ) -> str:
     """
     Classifies the FOIR into one of four zones:
       SAFE     → FOIR ≤ (threshold − buffer)
       STRETCH  → (threshold − buffer) < FOIR ≤ threshold
-      BREACH   → threshold < FOIR ≤ max_acceptable
+      BREACH   → threshold < FOIR ≤ high_risk_threshold
       CRITICAL → FOIR > high_risk_threshold
     """
     safe_ceiling = applicable_threshold - buffer_pct
@@ -189,7 +188,6 @@ def calculate_foir_assessment(
 
     # --- FOIR Policy Parameters ---
     applicable_threshold = _get_applicable_foir_threshold(verified_income, policy)
-    max_acceptable = float(foir_rule.get("max_acceptable_percent", 60.0))
     high_risk = float(foir_rule.get("high_risk_threshold_percent", 65.0))
     buffer = float(foir_rule.get("emi_affordability_buffer_percent", 5.0))
 
@@ -203,7 +201,7 @@ def calculate_foir_assessment(
         foir_pct = 100.0  # No income means maximum risk
 
     # --- Zone & Breach Classification ---
-    foir_zone = _classify_foir_zone(foir_pct, applicable_threshold, buffer, max_acceptable, high_risk)
+    foir_zone = _classify_foir_zone(foir_pct, applicable_threshold, buffer, high_risk)
     foir_breach = foir_pct > applicable_threshold
     breach_severity = _classify_foir_breach_severity(foir_zone)
 

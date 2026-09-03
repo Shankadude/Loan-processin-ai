@@ -163,6 +163,7 @@ def score_application(
 
     # 7. 3-Tier Traffic-Light Routing Decision (FOIR-Zone-Aware)
     dti_pct = obligation_calc["dti_percent"]
+    applicable_foir_thresh = float(obligation_calc.get("applicable_foir_threshold", 50.0))
     has_major = len(major_anomalies) > 0
     foir_is_critical = foir_zone == "CRITICAL"
 
@@ -172,7 +173,7 @@ def score_application(
         and not has_major
         and len(moderate_anomalies) == 0
         and statement_calc["is_valid"]
-        and dti_pct <= 50.0
+        and dti_pct <= applicable_foir_thresh
         and foir_zone in ("SAFE", "STRETCH")
     ):
         routing_color = "GREEN"

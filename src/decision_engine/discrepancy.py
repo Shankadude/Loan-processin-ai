@@ -110,72 +110,47 @@ def detect_discrepancies(
             )
         )
 
-    # 4. Excessive DTI / Overleveraging
+    # 4. Excessive FOIR / DTI Overleveraging (Income-Slab-Aware)
     dti_pct = float(obligation_calc.get("dti_percent", 0.0))
-    if dti_pct > high_foir:
+    foir_zone = obligation_calc.get("foir_zone", "SAFE")
+    foir_breach = obligation_calc.get("foir_breach", False)
+    applicable_threshold = float(obligation_calc.get("applicable_foir_threshold", max_foir))
+    foir_headroom = float(obligation_calc.get("foir_headroom", 0.0))
+    max_eligible_emi = float(obligation_calc.get("max_eligible_emi", 0.0))
+
+    if foir_zone == "CRITICAL" or dti_pct > high_foir:
         anomalies.append(
             Anomaly(
                 code="CRITICAL_HIGH_DTI",
                 severity="HIGH",
-                description=f"Critically high DTI / FOIR ({dti_pct}%) exceeds absolute ceiling ({high_foir}%). High probability of default.",
-                source="obligation_calculation",
-                evidence={"dti_percent": dti_pct, "threshold": high_foir},
-            )
-        )
-    elif dti_pct > max_foir:
-        anomalies.append(
-            Anomaly(
-                code="HIGH_DTI",
-                severity="MEDIUM",
-                description=f"DTI / FOIR ({dti_pct}%) exceeds standard lending ceiling ({max_foir}%).",
-                source="obligation_calculation",
-                evidence={"dti_percent": dti_pct, "threshold": max_foir},
-            )
-        )
-
-    # 4a. FOIR Breach Detection (Income-Slab-Aware)
-    foir_zone = obligation_calc.get("foir_zone", "SAFE")
-    foir_breach = obligation_calc.get("foir_breach", False)
-    foir_breach_severity = obligation_calc.get("foir_breach_severity", "none")
-    applicable_threshold = obligation_calc.get("applicable_foir_threshold", 50.0)
-    foir_headroom = obligation_calc.get("foir_headroom", 0.0)
-    max_eligible_emi = obligation_calc.get("max_eligible_emi", 0.0)
-
-    if foir_breach and foir_zone == "CRITICAL":
-        anomalies.append(
-            Anomaly(
-                code="FOIR_CRITICAL_BREACH",
-                severity="HIGH",
                 description=(
-                    f"FOIR ({dti_pct:.1f}%) in CRITICAL zone — exceeds high-risk ceiling. "
-                    f"Income-slab threshold: {applicable_threshold:.0f}%, "
-                    f"headroom: {foir_headroom:.1f}%, "
-                    f"max eligible EMI: Rs. {max_eligible_emi:,.2f}."
+                    f"Critically high DTI / FOIR ({dti_pct:.1f}%) exceeds absolute risk ceiling ({high_foir:.0f}%). "
+                    f"Income-slab threshold: {applicable_threshold:.0f}%, max eligible EMI: Rs. {max_eligible_emi:,.2f}."
                 ),
-                source="foir_assessment",
+                source="obligation_calculation",
                 evidence={
-                    "foir_percentage": dti_pct,
+                    "dti_percent": dti_pct,
                     "foir_zone": foir_zone,
+                    "threshold": high_foir,
                     "applicable_threshold": applicable_threshold,
-                    "foir_headroom": foir_headroom,
                     "max_eligible_emi": max_eligible_emi,
                 },
             )
         )
-    elif foir_breach and foir_zone == "BREACH":
+    elif foir_breach or foir_zone == "BREACH" or dti_pct > applicable_threshold:
         anomalies.append(
             Anomaly(
-                code="FOIR_BREACH",
+                code="HIGH_DTI",
                 severity="MEDIUM",
                 description=(
-                    f"FOIR ({dti_pct:.1f}%) exceeds income-slab threshold ({applicable_threshold:.0f}%) — "
-                    f"zone: {foir_zone}, headroom: {foir_headroom:.1f}%. "
-                    f"Max eligible EMI: Rs. {max_eligible_emi:,.2f}."
+                    f"DTI / FOIR ({dti_pct:.1f}%) exceeds income-slab lending threshold ({applicable_threshold:.0f}%) — "
+                    f"zone: {foir_zone}, headroom: {foir_headroom:.1f}%. Max eligible EMI: Rs. {max_eligible_emi:,.2f}."
                 ),
-                source="foir_assessment",
+                source="obligation_calculation",
                 evidence={
-                    "foir_percentage": dti_pct,
+                    "dti_percent": dti_pct,
                     "foir_zone": foir_zone,
+                    "threshold": applicable_threshold,
                     "applicable_threshold": applicable_threshold,
                     "foir_headroom": foir_headroom,
                     "max_eligible_emi": max_eligible_emi,
