@@ -52,6 +52,12 @@ class DecisionResult(BaseModel):
     declared_emi: float
     detected_emi: float
     dti_percent: float
+    foir_percentage: float = 0.0
+    foir_zone: str = "SAFE"
+    foir_breach_severity: str = "none"
+    applicable_foir_threshold: float = 50.0
+    max_eligible_emi: float = 0.0
+    emi_affordability_passed: bool = True
     risk_score: int
     risk_level: RiskLevel
     recommendation: RiskRecommendation

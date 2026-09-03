@@ -24,6 +24,9 @@ def score_application(
     TRACE Deterministic Scoring & Underwriting Engine:
     Zero-hallucination arithmetic risk deductions, 3-tier traffic-light routing,
     dynamic reviewer checklist, and explainable counterfactual synthesis.
+
+    Enhanced with income-slab-based FOIR assessment, EMI affordability checks,
+    and FOIR zone-aware risk deductions.
     """
     policy = load_policy(policy_name)
     weights = policy.get("scoring_weights", {})
@@ -36,6 +39,11 @@ def score_application(
     deduct_statement = float(weights.get("arithmetic_mismatch_deduction", 30.0))
     deduct_elig = float(weights.get("eligibility_failure_deduction", 50.0))
 
+    # FOIR-specific deductions from policy
+    deduct_foir_marginal = float(weights.get("foir_marginal_breach_deduction", 10.0))
+    deduct_foir_moderate = float(weights.get("foir_moderate_breach_deduction", 20.0))
+    deduct_foir_severe = float(weights.get("foir_severe_breach_deduction", 35.0))
+
     green_threshold = float(thresholds.get("green_min_score", 80.0))
     amber_threshold = float(thresholds.get("amber_min_score", 50.0))
 
@@ -45,14 +53,17 @@ def score_application(
     bank_avg_credit = float(verified_payload.get("bank_avg_salary_credit") or 0.0)
     income_calc = calculate_income_metrics(declared_net, verified_net, bank_avg_credit)
 
-    # 2. Obligation & FOIR Metrics
+    # 2. Obligation & FOIR Metrics (now with income-slab-aware FOIR)
     detected_emi = float(liabilities_payload.get("detected_emi") or 0.0)
     declared_liabilities = liabilities_payload.get("declared_liabilities", [])
+    proposed_emi_val = round(requested_amount * 0.025, 2) if requested_amount > 0 else 0.0
+
     obligation_calc = calculate_obligation_metrics(
         detected_emi=detected_emi,
         declared_liabilities=declared_liabilities,
         verified_monthly_net=income_calc["effective_verified_income"],
-        proposed_emi=round(requested_amount * 0.025, 2) if requested_amount > 0 else 0.0,
+        proposed_emi=proposed_emi_val,
+        policy_name=policy_name,
     )
 
     # 3. Statement Balance Reconciliation
@@ -64,12 +75,17 @@ def score_application(
         closing_balance=bs.get("closing_balance"),
     )
 
-    # 4. Lender Policy Eligibility Check
+    # 4. Lender Policy Eligibility Check (now with FOIR zone & EMI affordability)
     eligibility_calc = check_eligibility(
         verified_income=income_calc["effective_verified_income"],
         foir_percentage=obligation_calc["foir_percentage"],
         income_variance_percent=income_calc["income_difference_percent"],
         undisclosed_liability_gap=obligation_calc["undisclosed_liability_gap"],
+        foir_zone=obligation_calc.get("foir_zone", "SAFE"),
+        emi_affordability_passed=obligation_calc.get("emi_affordability_passed", True),
+        applicable_foir_threshold=obligation_calc.get("applicable_foir_threshold", 50.0),
+        max_eligible_emi=obligation_calc.get("max_eligible_emi", 0.0),
+        proposed_emi=obligation_calc.get("proposed_emi", 0.0),
         policy_name=policy_name,
     )
 
@@ -112,7 +128,18 @@ def score_application(
     statement_deduction = deduct_statement if not statement_calc["is_valid"] else 0.0
     elig_deduction = deduct_elig if not eligibility_calc["passed"] else 0.0
 
-    final_score = base_score - (major_deduction + moderate_deduction + minor_deduction + statement_deduction + elig_deduction)
+    # 6a. FOIR Zone-Based Scoring Deductions
+    foir_zone = obligation_calc.get("foir_zone", "SAFE")
+    foir_breach_severity = obligation_calc.get("foir_breach_severity", "none")
+    foir_deduction = 0.0
+    if foir_breach_severity == "marginal":
+        foir_deduction = deduct_foir_marginal
+    elif foir_breach_severity == "moderate":
+        foir_deduction = deduct_foir_moderate
+    elif foir_breach_severity == "severe":
+        foir_deduction = deduct_foir_severe
+
+    final_score = base_score - (major_deduction + moderate_deduction + minor_deduction + statement_deduction + elig_deduction + foir_deduction)
     final_score = max(0.0, min(100.0, round(final_score, 1)))
 
     factor_breakdown = {
@@ -125,12 +152,20 @@ def score_application(
         "minor_anomalies_deduction": -minor_deduction,
         "statement_arithmetic_deduction": -statement_deduction,
         "eligibility_failure_deduction": -elig_deduction,
+        "foir_zone": foir_zone,
+        "foir_breach_severity": foir_breach_severity,
+        "foir_zone_deduction": -foir_deduction,
+        "applicable_foir_threshold": obligation_calc.get("applicable_foir_threshold", 50.0),
+        "foir_headroom": obligation_calc.get("foir_headroom", 0.0),
+        "max_eligible_emi": obligation_calc.get("max_eligible_emi", 0.0),
         "final_calculated_score": final_score,
     }
 
-    # 7. 3-Tier Traffic-Light Routing Decision
+    # 7. 3-Tier Traffic-Light Routing Decision (FOIR-Zone-Aware)
     dti_pct = obligation_calc["dti_percent"]
+    applicable_foir_thresh = float(obligation_calc.get("applicable_foir_threshold", 50.0))
     has_major = len(major_anomalies) > 0
+    foir_is_critical = foir_zone == "CRITICAL"
 
     if (
         final_score >= green_threshold
@@ -138,17 +173,22 @@ def score_application(
         and not has_major
         and len(moderate_anomalies) == 0
         and statement_calc["is_valid"]
-        and dti_pct <= 50.0
+        and dti_pct <= applicable_foir_thresh
+        and foir_zone in ("SAFE", "STRETCH")
     ):
         routing_color = "GREEN"
         recommendation = "AUTO_APPROVE"
         risk_level = "LOW"
-        routing_reason = "Fast-track: Clean profile, low DTI, zero major anomalies, verified statement arithmetic."
+        routing_reason = (
+            f"Fast-track: Clean profile, FOIR {dti_pct:.1f}% in {foir_zone} zone "
+            f"(slab threshold {obligation_calc.get('applicable_foir_threshold', 50.0):.0f}%), "
+            f"zero major anomalies, verified statement arithmetic."
+        )
     elif (
         final_score < amber_threshold
         or not eligibility_calc["passed"]
         or has_major
-        or dti_pct > 65.0
+        or foir_is_critical
         or not statement_calc["is_valid"]
     ):
         routing_color = "RED"
@@ -161,16 +201,22 @@ def score_application(
             reasons.append(eligibility_calc["reasons"][0])
         if not statement_calc["is_valid"]:
             reasons.append("Bank statement balance mismatch (potential alteration)")
-        if dti_pct > 65.0:
-            reasons.append(f"Severe DTI ratio ({dti_pct:.1f}%)")
+        if foir_is_critical:
+            reasons.append(
+                f"FOIR {dti_pct:.1f}% in CRITICAL zone — exceeds high-risk ceiling "
+                f"(max eligible EMI: Rs. {obligation_calc.get('max_eligible_emi', 0):,.2f})"
+            )
         routing_reason = "; ".join(reasons) if reasons else "Application risk exceeds acceptable lending threshold."
     else:
         routing_color = "AMBER"
         recommendation = "REVIEW"
         risk_level = "MEDIUM"
-        routing_reason = "Moderate risk factors detected: Routed to Underwriter queue for human-in-the-loop sign-off."
+        routing_reason = (
+            f"Moderate risk: FOIR {dti_pct:.1f}% in {foir_zone} zone. "
+            f"Routed to Underwriter queue for human-in-the-loop sign-off."
+        )
 
-    # 8. Dynamic Underwriter Checklist
+    # 8. Dynamic Underwriter Checklist (FOIR-Enhanced)
     checklist: List[str] = []
     if identity_status != "MATCH":
         checklist.append("Perform manual KYC identity verification against government database (PAN/Aadhaar)")
@@ -180,13 +226,26 @@ def score_application(
         checklist.append(f"Inspect bank statement debits for undisclosed EMI obligations (Gap: Rs. {obligation_calc['undisclosed_liability_gap']:,.2f})")
     if not statement_calc["is_valid"]:
         checklist.append(f"Request certified bank statement copy: Arithmetic discrepancy of Rs. {statement_calc['difference_amount']:,.2f}")
-    if dti_pct > 50.0:
-        checklist.append(f"Assess repayment capability with secondary income proof (DTI: {dti_pct:.1f}%)")
+    if foir_zone in ("BREACH", "CRITICAL"):
+        checklist.append(
+            f"FOIR breach ({dti_pct:.1f}%) in {foir_zone} zone — verify additional income sources or "
+            f"request co-applicant (Max eligible EMI: Rs. {obligation_calc.get('max_eligible_emi', 0):,.2f})"
+        )
+    elif foir_zone == "STRETCH":
+        checklist.append(
+            f"FOIR in STRETCH zone ({dti_pct:.1f}%) — confirm stable income trend and minimal "
+            f"discretionary spending (Headroom: {obligation_calc.get('foir_headroom', 0):.1f}%)"
+        )
+    if not obligation_calc.get("emi_affordability_passed", True):
+        checklist.append(
+            f"Proposed EMI (Rs. {obligation_calc['proposed_emi']:,.2f}) exceeds max eligible EMI "
+            f"(Rs. {obligation_calc.get('max_eligible_emi', 0):,.2f}) — assess repayment capacity"
+        )
     if not checklist:
         checklist.append("Confirm applicant identity match across KYC proofs")
         checklist.append("Verify one-click fast-track sign-off for loan disbursement")
 
-    # 9. Counterfactual Reasoning Note
+    # 9. Counterfactual Reasoning Note (FOIR-Enhanced)
     if routing_color == "GREEN":
         counterfactual = "Meets all automated underwriting guidelines for fast-track approval."
     elif routing_color == "AMBER":
@@ -195,8 +254,11 @@ def score_application(
             items.append("providing updated salary slip or bank reconciliation")
         if obligation_calc["has_undisclosed_liabilities"]:
             items.append("furnishing loan closure letters for closed debts")
-        if dti_pct > 50.0:
-            items.append("adding a creditworthy co-applicant to reduce effective DTI")
+        if foir_zone in ("STRETCH", "BREACH"):
+            items.append(
+                f"reducing total obligations to below {obligation_calc.get('applicable_foir_threshold', 50):.0f}% FOIR "
+                f"or adding a co-applicant to increase combined income"
+            )
         counterfactual = "Application would qualify for GREEN (Auto-Approval) by " + " and ".join(items) if items else "Providing clean document clarification."
     else:
         counterfactual = f"Application rejected due to high-risk factors: {routing_reason}. To re-qualify, applicant must clear active obligations or resolve document inconsistencies."
@@ -213,6 +275,18 @@ def score_application(
         for a in anomalies
     ]
 
+    # Add FOIR deduction as a risk factor if applicable
+    if foir_deduction > 0:
+        risk_factors.append(
+            RiskFactor(
+                factor="FOIR_ZONE_DEDUCTION",
+                score=int(foir_deduction),
+                severity="HIGH" if foir_breach_severity == "severe" else ("MEDIUM" if foir_breach_severity == "moderate" else "LOW"),
+                reason=f"FOIR {dti_pct:.1f}% in {foir_zone} zone (threshold: {obligation_calc.get('applicable_foir_threshold', 50):.0f}%, headroom: {obligation_calc.get('foir_headroom', 0):.1f}%)",
+                source="foir_assessment",
+            )
+        )
+
     audit_notes = routing_reason
 
     # Package Step Payloads
@@ -228,6 +302,15 @@ def score_application(
         "obligation_metrics": obligation_calc,
         "statement_validation": statement_calc,
         "eligibility_result": eligibility_calc,
+        "foir_assessment": {
+            "foir_percentage": obligation_calc["foir_percentage"],
+            "applicable_threshold": obligation_calc.get("applicable_foir_threshold", 50.0),
+            "foir_zone": foir_zone,
+            "foir_breach_severity": foir_breach_severity,
+            "foir_headroom": obligation_calc.get("foir_headroom", 0.0),
+            "max_eligible_emi": obligation_calc.get("max_eligible_emi", 0.0),
+            "emi_affordability_passed": obligation_calc.get("emi_affordability_passed", True),
+        },
     }
     step6_payload = {
         "risk_score": final_score,
@@ -252,6 +335,12 @@ def score_application(
         declared_emi=obligation_calc["declared_emi"],
         detected_emi=obligation_calc["detected_emi"],
         dti_percent=dti_pct,
+        foir_percentage=obligation_calc["foir_percentage"],
+        foir_zone=foir_zone,
+        foir_breach_severity=foir_breach_severity,
+        applicable_foir_threshold=obligation_calc.get("applicable_foir_threshold", 50.0),
+        max_eligible_emi=obligation_calc.get("max_eligible_emi", 0.0),
+        emi_affordability_passed=obligation_calc.get("emi_affordability_passed", True),
         risk_score=int(final_score),
         risk_level=risk_level,
         recommendation=recommendation,
