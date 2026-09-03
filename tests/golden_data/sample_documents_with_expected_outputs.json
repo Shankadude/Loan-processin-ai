@@ -1,0 +1,492 @@
+{
+  "description": "Golden test data for Loan Processing AI pipeline verification",
+  "version": "1.0",
+  "scenarios": {
+    "clean_approval": {
+      "label": "Clean Salaried Applicant - Expected AUTO_APPROVE",
+      "declared": {
+        "name": "Avinash Bhatt",
+        "dob": "25/05/1990",
+        "pan_number": "AVIBH2505F",
+        "employer": "Infosys Ltd",
+        "gross_monthly": 85000.0,
+        "net_monthly": 72000.0,
+        "loan_amount_requested": 300000.0,
+        "tenure_months": 24,
+        "purpose": "Personal Loan",
+        "liabilities": []
+      },
+      "verified": {
+        "name": "AVINASH BHATT",
+        "dob": "25/05/1990",
+        "pan_number": "AVIBH2505F",
+        "employer": "Infosys Ltd",
+        "payslip_net_monthly": 72000.0,
+        "bank_avg_salary_credit": 71500.0,
+        "form16_annual_gross": 1020000.0
+      },
+      "liabilities": {
+        "declared_liabilities": [],
+        "emi_transactions": [],
+        "detected_emi": 0.0
+      },
+      "bank_statement": {
+        "opening_balance": 125000.0,
+        "total_credits": 215000.0,
+        "total_debits": 180000.0,
+        "closing_balance": 160000.0
+      },
+      "documents": [
+        {
+          "filename": "loan_application.pdf",
+          "doc_type": "LOAN_APPLICATION",
+          "document_type": "LOAN_APPLICATION",
+          "confidence": 0.95,
+          "extracted": {
+            "name": "Avinash Bhatt",
+            "dob": "25/05/1990",
+            "pan": "AVIBH2505F",
+            "employer": "Infosys Ltd",
+            "gross_monthly": 85000.0,
+            "net_monthly": 72000.0,
+            "loan_amount_requested": 300000.0
+          },
+          "extracted_data": {
+            "name": "Avinash Bhatt",
+            "dob": "25/05/1990",
+            "pan": "AVIBH2505F",
+            "employer": "Infosys Ltd",
+            "gross_monthly": 85000.0,
+            "net_monthly": 72000.0,
+            "loan_amount_requested": 300000.0
+          }
+        },
+        {
+          "filename": "payslip_march.pdf",
+          "doc_type": "PAYSLIP",
+          "document_type": "PAYSLIP",
+          "confidence": 0.92,
+          "extracted": {
+            "employee_name": "Avinash Bhatt",
+            "employer_name": "Infosys Ltd",
+            "net_pay": 72000.0,
+            "pan_number": "AVIBH2505F"
+          },
+          "extracted_data": {
+            "employee_name": "Avinash Bhatt",
+            "employer_name": "Infosys Ltd",
+            "net_pay": 72000.0,
+            "pan_number": "AVIBH2505F"
+          }
+        },
+        {
+          "filename": "pan_card.pdf",
+          "doc_type": "PAN_CARD",
+          "document_type": "PAN_CARD",
+          "confidence": 0.98,
+          "extracted": {
+            "full_name": "AVINASH BHATT",
+            "pan_number": "AVIBH2505F",
+            "dob": "25/05/1990"
+          },
+          "extracted_data": {
+            "full_name": "AVINASH BHATT",
+            "pan_number": "AVIBH2505F",
+            "dob": "25/05/1990"
+          }
+        },
+        {
+          "filename": "bank_statement.pdf",
+          "doc_type": "BANK_STATEMENT",
+          "document_type": "BANK_STATEMENT",
+          "confidence": 0.90,
+          "extracted": {
+            "account_holder_name": "Avinash Bhatt",
+            "opening_balance": 125000.0,
+            "total_credits": 215000.0,
+            "total_debits": 180000.0,
+            "closing_balance": 160000.0,
+            "transactions": [
+              {"date": "2025-03-01", "narration": "SAL INFOSYS", "amount": 71500.0, "category": "salary_credit"}
+            ]
+          },
+          "extracted_data": {
+            "account_holder_name": "Avinash Bhatt",
+            "opening_balance": 125000.0,
+            "total_credits": 215000.0,
+            "total_debits": 180000.0,
+            "closing_balance": 160000.0,
+            "transactions": [
+              {"date": "2025-03-01", "narration": "SAL INFOSYS", "amount": 71500.0, "category": "salary_credit"}
+            ]
+          }
+        }
+      ],
+      "expected_outputs": {
+        "routing_color": "GREEN",
+        "recommendation": "AUTO_APPROVE",
+        "risk_level": "LOW",
+        "identity_status": "MATCH",
+        "income_status": "MATCH",
+        "liability_status": "MATCH",
+        "statement_arithmetic_valid": true,
+        "eligibility_passed": true,
+        "risk_score_min": 80
+      }
+    },
+    "income_mismatch_review": {
+      "label": "Income Variance >10% - Expected REVIEW",
+      "declared": {
+        "name": "Priya Sharma",
+        "dob": "19/03/1988",
+        "pan_number": "PRISH1903F",
+        "employer": "TCS Limited",
+        "gross_monthly": 95000.0,
+        "net_monthly": 80000.0,
+        "loan_amount_requested": 500000.0,
+        "tenure_months": 36,
+        "purpose": "Home Renovation",
+        "liabilities": [{"type": "Car Loan", "emi_amount": 8000.0}]
+      },
+      "verified": {
+        "name": "PRIYA SHARMA",
+        "dob": "19/03/1988",
+        "pan_number": "PRISH1903F",
+        "employer": "TCS Limited",
+        "payslip_net_monthly": 68000.0,
+        "bank_avg_salary_credit": 67500.0,
+        "form16_annual_gross": 816000.0
+      },
+      "liabilities": {
+        "declared_liabilities": [{"type": "Car Loan", "emi_amount": 8000.0}],
+        "emi_transactions": [{"narration": "CAR LOAN EMI-HDFC", "amount": -8500.0, "category": "emi_debit"}],
+        "detected_emi": 8500.0
+      },
+      "bank_statement": {
+        "opening_balance": 85000.0,
+        "total_credits": 200000.0,
+        "total_debits": 185000.0,
+        "closing_balance": 100000.0
+      },
+      "documents": [
+        {
+          "filename": "loan_application.pdf",
+          "doc_type": "LOAN_APPLICATION",
+          "document_type": "LOAN_APPLICATION",
+          "confidence": 0.93,
+          "extracted": {"name": "Priya Sharma", "dob": "19/03/1988", "pan": "PRISH1903F", "employer": "TCS Limited", "gross_monthly": 95000.0, "net_monthly": 80000.0, "loan_amount_requested": 500000.0},
+          "extracted_data": {"name": "Priya Sharma", "dob": "19/03/1988", "pan": "PRISH1903F", "employer": "TCS Limited", "gross_monthly": 95000.0, "net_monthly": 80000.0, "loan_amount_requested": 500000.0}
+        },
+        {
+          "filename": "payslip.pdf",
+          "doc_type": "PAYSLIP",
+          "document_type": "PAYSLIP",
+          "confidence": 0.91,
+          "extracted": {"employee_name": "Priya Sharma", "employer_name": "TCS Limited", "net_pay": 68000.0, "pan_number": "PRISH1903F"},
+          "extracted_data": {"employee_name": "Priya Sharma", "employer_name": "TCS Limited", "net_pay": 68000.0, "pan_number": "PRISH1903F"}
+        },
+        {
+          "filename": "pan.pdf",
+          "doc_type": "PAN_CARD",
+          "document_type": "PAN_CARD",
+          "confidence": 0.97,
+          "extracted": {"full_name": "PRIYA SHARMA", "pan_number": "PRISH1903F", "dob": "19/03/1988"},
+          "extracted_data": {"full_name": "PRIYA SHARMA", "pan_number": "PRISH1903F", "dob": "19/03/1988"}
+        },
+        {
+          "filename": "bank_statement.pdf",
+          "doc_type": "BANK_STATEMENT",
+          "document_type": "BANK_STATEMENT",
+          "confidence": 0.89,
+          "extracted": {"account_holder_name": "Priya Sharma", "opening_balance": 85000.0, "total_credits": 200000.0, "total_debits": 185000.0, "closing_balance": 100000.0, "transactions": []},
+          "extracted_data": {"account_holder_name": "Priya Sharma", "opening_balance": 85000.0, "total_credits": 200000.0, "total_debits": 185000.0, "closing_balance": 100000.0, "transactions": []}
+        }
+      ],
+      "expected_outputs": {
+        "routing_color": "AMBER",
+        "recommendation": "REVIEW",
+        "risk_level": "MEDIUM",
+        "identity_status": "MATCH",
+        "income_status_in": ["PARTIAL_MATCH", "MISMATCH"],
+        "liability_status": "MATCH",
+        "statement_arithmetic_valid": true,
+        "income_difference_percent_min": 10.0
+      }
+    },
+    "identity_fraud_reject": {
+      "label": "Identity Mismatch + Forged Statement - Expected REJECT",
+      "declared": {
+        "name": "Rajesh Kumar",
+        "dob": "10/11/1985",
+        "pan_number": "RAJKK1011F",
+        "employer": "Wipro Technologies",
+        "gross_monthly": 120000.0,
+        "net_monthly": 100000.0,
+        "loan_amount_requested": 800000.0,
+        "tenure_months": 48,
+        "purpose": "Debt Consolidation",
+        "liabilities": []
+      },
+      "verified": {
+        "name": "RAMESH KUMAR",
+        "dob": "10/11/1985",
+        "pan_number": "RAMKK1011F",
+        "employer": "Wipro Technologies",
+        "payslip_net_monthly": 55000.0,
+        "bank_avg_salary_credit": 54000.0,
+        "form16_annual_gross": 660000.0
+      },
+      "liabilities": {
+        "declared_liabilities": [],
+        "emi_transactions": [
+          {"narration": "HOME LOAN EMI-SBI", "amount": -15000.0, "category": "emi_debit"},
+          {"narration": "PERSONAL LOAN-HDFC", "amount": -8000.0, "category": "emi_debit"}
+        ],
+        "detected_emi": 23000.0
+      },
+      "bank_statement": {
+        "opening_balance": 50000.0,
+        "total_credits": 180000.0,
+        "total_debits": 160000.0,
+        "closing_balance": 85000.0
+      },
+      "documents": [
+        {
+          "filename": "loan_application.pdf",
+          "doc_type": "LOAN_APPLICATION",
+          "document_type": "LOAN_APPLICATION",
+          "confidence": 0.88,
+          "extracted": {"name": "Rajesh Kumar", "dob": "10/11/1985", "pan": "RAJKK1011F", "employer": "Wipro Technologies", "net_monthly": 100000.0, "loan_amount_requested": 800000.0},
+          "extracted_data": {"name": "Rajesh Kumar", "dob": "10/11/1985", "pan": "RAJKK1011F", "employer": "Wipro Technologies", "net_monthly": 100000.0, "loan_amount_requested": 800000.0}
+        },
+        {
+          "filename": "payslip.pdf",
+          "doc_type": "PAYSLIP",
+          "document_type": "PAYSLIP",
+          "confidence": 0.85,
+          "extracted": {"employee_name": "Ramesh Kumar", "employer_name": "Wipro Technologies", "net_pay": 55000.0, "pan_number": "RAMKK1011F"},
+          "extracted_data": {"employee_name": "Ramesh Kumar", "employer_name": "Wipro Technologies", "net_pay": 55000.0, "pan_number": "RAMKK1011F"}
+        },
+        {
+          "filename": "pan.pdf",
+          "doc_type": "PAN_CARD",
+          "document_type": "PAN_CARD",
+          "confidence": 0.96,
+          "extracted": {"full_name": "RAMESH KUMAR", "pan_number": "RAMKK1011F", "dob": "10/11/1985"},
+          "extracted_data": {"full_name": "RAMESH KUMAR", "pan_number": "RAMKK1011F", "dob": "10/11/1985"}
+        },
+        {
+          "filename": "bank_statement.pdf",
+          "doc_type": "BANK_STATEMENT",
+          "document_type": "BANK_STATEMENT",
+          "confidence": 0.87,
+          "extracted": {"account_holder_name": "Ramesh Kumar", "opening_balance": 50000.0, "total_credits": 180000.0, "total_debits": 160000.0, "closing_balance": 85000.0, "transactions": []},
+          "extracted_data": {"account_holder_name": "Ramesh Kumar", "opening_balance": 50000.0, "total_credits": 180000.0, "total_debits": 160000.0, "closing_balance": 85000.0, "transactions": []}
+        }
+      ],
+      "expected_outputs": {
+        "routing_color": "RED",
+        "recommendation": "REJECT",
+        "risk_level": "HIGH",
+        "identity_status": "MISMATCH",
+        "income_status": "MISMATCH",
+        "has_undisclosed_liabilities": true,
+        "statement_arithmetic_valid": false,
+        "eligibility_passed": false,
+        "risk_score_max": 50
+      }
+    },
+    "high_dti_reject": {
+      "label": "High DTI Overleveraged Applicant - Expected REJECT",
+      "declared": {
+        "name": "Sanjay Gupta",
+        "dob": "15/07/1982",
+        "pan_number": "SANGG1507F",
+        "employer": "HCL Technologies",
+        "gross_monthly": 60000.0,
+        "net_monthly": 50000.0,
+        "loan_amount_requested": 600000.0,
+        "tenure_months": 36,
+        "purpose": "Wedding Expenses",
+        "liabilities": [
+          {"type": "Home Loan", "emi_amount": 18000.0},
+          {"type": "Car Loan", "emi_amount": 7000.0}
+        ]
+      },
+      "verified": {
+        "name": "SANJAY GUPTA",
+        "dob": "15/07/1982",
+        "pan_number": "SANGG1507F",
+        "employer": "HCL Technologies",
+        "payslip_net_monthly": 49000.0,
+        "bank_avg_salary_credit": 48500.0,
+        "form16_annual_gross": 588000.0
+      },
+      "liabilities": {
+        "declared_liabilities": [
+          {"type": "Home Loan", "emi_amount": 18000.0},
+          {"type": "Car Loan", "emi_amount": 7000.0}
+        ],
+        "emi_transactions": [
+          {"narration": "HOME LOAN EMI-AXIS", "amount": -18000.0, "category": "emi_debit"},
+          {"narration": "CAR LOAN EMI-ICICI", "amount": -7000.0, "category": "emi_debit"},
+          {"narration": "PERS LOAN-HDFC", "amount": -5000.0, "category": "emi_debit"}
+        ],
+        "detected_emi": 30000.0
+      },
+      "bank_statement": {
+        "opening_balance": 35000.0,
+        "total_credits": 150000.0,
+        "total_debits": 145000.0,
+        "closing_balance": 40000.0
+      },
+      "documents": [
+        {
+          "filename": "loan_application.pdf",
+          "doc_type": "LOAN_APPLICATION",
+          "document_type": "LOAN_APPLICATION",
+          "confidence": 0.91,
+          "extracted": {"name": "Sanjay Gupta", "employer": "HCL Technologies", "net_monthly": 50000.0, "loan_amount_requested": 600000.0},
+          "extracted_data": {"name": "Sanjay Gupta", "employer": "HCL Technologies", "net_monthly": 50000.0, "loan_amount_requested": 600000.0}
+        },
+        {
+          "filename": "payslip.pdf",
+          "doc_type": "PAYSLIP",
+          "document_type": "PAYSLIP",
+          "confidence": 0.90,
+          "extracted": {"employee_name": "Sanjay Gupta", "employer_name": "HCL Technologies", "net_pay": 49000.0},
+          "extracted_data": {"employee_name": "Sanjay Gupta", "employer_name": "HCL Technologies", "net_pay": 49000.0}
+        },
+        {
+          "filename": "pan.pdf",
+          "doc_type": "PAN_CARD",
+          "document_type": "PAN_CARD",
+          "confidence": 0.95,
+          "extracted": {"full_name": "SANJAY GUPTA", "pan_number": "SANGG1507F", "dob": "15/07/1982"},
+          "extracted_data": {"full_name": "SANJAY GUPTA", "pan_number": "SANGG1507F", "dob": "15/07/1982"}
+        },
+        {
+          "filename": "bank_statement.pdf",
+          "doc_type": "BANK_STATEMENT",
+          "document_type": "BANK_STATEMENT",
+          "confidence": 0.88,
+          "extracted": {"account_holder_name": "Sanjay Gupta", "opening_balance": 35000.0, "total_credits": 150000.0, "total_debits": 145000.0, "closing_balance": 40000.0, "transactions": []},
+          "extracted_data": {"account_holder_name": "Sanjay Gupta", "opening_balance": 35000.0, "total_credits": 150000.0, "total_debits": 145000.0, "closing_balance": 40000.0, "transactions": []}
+        }
+      ],
+      "expected_outputs": {
+        "routing_color": "RED",
+        "recommendation": "REJECT",
+        "risk_level": "HIGH",
+        "dti_percent_min": 60.0,
+        "has_undisclosed_liabilities": true,
+        "eligibility_passed": false
+      }
+    },
+    "missing_docs_incomplete": {
+      "label": "Missing Required Documents - Expected INCOMPLETE",
+      "declared": {
+        "name": "Kavita Patel",
+        "dob": "22/09/1993",
+        "pan_number": "KAVPP2209F",
+        "employer": "Amazon India",
+        "gross_monthly": 75000.0,
+        "net_monthly": 63000.0,
+        "loan_amount_requested": 200000.0,
+        "tenure_months": 12,
+        "purpose": "Education",
+        "liabilities": []
+      },
+      "documents": [
+        {
+          "filename": "loan_application.pdf",
+          "doc_type": "LOAN_APPLICATION",
+          "document_type": "LOAN_APPLICATION",
+          "confidence": 0.94,
+          "extracted": {"name": "Kavita Patel"},
+          "extracted_data": {"name": "Kavita Patel"}
+        }
+      ],
+      "expected_outputs": {
+        "status": "INCOMPLETE",
+        "missing_documents": ["PAYSLIP", "BANK_STATEMENT", "PAN_CARD"]
+      }
+    },
+    "borderline_amber": {
+      "label": "Borderline Case Moderate Risk - Expected REVIEW",
+      "declared": {
+        "name": "Deepak Verma",
+        "dob": "05/01/1991",
+        "pan_number": "DEEPV0501F",
+        "employer": "Cognizant Technology Solutions",
+        "gross_monthly": 70000.0,
+        "net_monthly": 58000.0,
+        "loan_amount_requested": 400000.0,
+        "tenure_months": 24,
+        "purpose": "Medical Emergency",
+        "liabilities": [{"type": "Personal Loan", "emi_amount": 5000.0}]
+      },
+      "verified": {
+        "name": "DEEPAK VERMA",
+        "dob": "05/01/1991",
+        "pan_number": "DEEPV0501F",
+        "employer": "Cognizant",
+        "payslip_net_monthly": 57000.0,
+        "bank_avg_salary_credit": 56500.0,
+        "form16_annual_gross": 684000.0
+      },
+      "liabilities": {
+        "declared_liabilities": [{"type": "Personal Loan", "emi_amount": 5000.0}],
+        "emi_transactions": [{"narration": "PERS LOAN EMI-SBI", "amount": -5000.0, "category": "emi_debit"}],
+        "detected_emi": 5000.0
+      },
+      "bank_statement": {
+        "opening_balance": 45000.0,
+        "total_credits": 170000.0,
+        "total_debits": 160000.0,
+        "closing_balance": 55000.0
+      },
+      "documents": [
+        {
+          "filename": "loan_application.pdf",
+          "doc_type": "LOAN_APPLICATION",
+          "document_type": "LOAN_APPLICATION",
+          "confidence": 0.92,
+          "extracted": {"name": "Deepak Verma", "employer": "Cognizant Technology Solutions", "net_monthly": 58000.0, "loan_amount_requested": 400000.0},
+          "extracted_data": {"name": "Deepak Verma", "employer": "Cognizant Technology Solutions", "net_monthly": 58000.0, "loan_amount_requested": 400000.0}
+        },
+        {
+          "filename": "payslip.pdf",
+          "doc_type": "PAYSLIP",
+          "document_type": "PAYSLIP",
+          "confidence": 0.90,
+          "extracted": {"employee_name": "Deepak Verma", "employer_name": "Cognizant", "net_pay": 57000.0, "pan_number": "DEEPV0501F"},
+          "extracted_data": {"employee_name": "Deepak Verma", "employer_name": "Cognizant", "net_pay": 57000.0, "pan_number": "DEEPV0501F"}
+        },
+        {
+          "filename": "pan.pdf",
+          "doc_type": "PAN_CARD",
+          "document_type": "PAN_CARD",
+          "confidence": 0.96,
+          "extracted": {"full_name": "DEEPAK VERMA", "pan_number": "DEEPV0501F", "dob": "05/01/1991"},
+          "extracted_data": {"full_name": "DEEPAK VERMA", "pan_number": "DEEPV0501F", "dob": "05/01/1991"}
+        },
+        {
+          "filename": "bank_statement.pdf",
+          "doc_type": "BANK_STATEMENT",
+          "document_type": "BANK_STATEMENT",
+          "confidence": 0.88,
+          "extracted": {"account_holder_name": "Deepak Verma", "opening_balance": 45000.0, "total_credits": 170000.0, "total_debits": 160000.0, "closing_balance": 55000.0, "transactions": []},
+          "extracted_data": {"account_holder_name": "Deepak Verma", "opening_balance": 45000.0, "total_credits": 170000.0, "total_debits": 160000.0, "closing_balance": 55000.0, "transactions": []}
+        }
+      ],
+      "expected_outputs": {
+        "routing_color": "AMBER",
+        "recommendation": "REVIEW",
+        "risk_level": "MEDIUM",
+        "identity_status": "MATCH",
+        "employer_status_in": ["PARTIAL_MATCH", "MISMATCH"]
+      }
+    }
+  }
+}
