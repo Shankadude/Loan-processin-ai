@@ -1,11 +1,19 @@
 {
   "policy_name": "personal_loan_standard",
-  "version": "1.0",
+  "version": "2.0",
   "rules": {
     "foir": {
       "standard_threshold_percent": 50.0,
       "max_acceptable_percent": 60.0,
-      "high_risk_threshold_percent": 65.0
+      "high_risk_threshold_percent": 65.0,
+      "income_slab_thresholds": [
+        {"min_income": 0,      "max_income": 25000,     "max_foir_percent": 40.0},
+        {"min_income": 25001,  "max_income": 50000,     "max_foir_percent": 50.0},
+        {"min_income": 50001,  "max_income": 100000,    "max_foir_percent": 55.0},
+        {"min_income": 100001, "max_income": 999999999, "max_foir_percent": 60.0}
+      ],
+      "max_eligible_emi_uses_slab": true,
+      "emi_affordability_buffer_percent": 5.0
     },
     "income": {
       "min_monthly_net_income": 25000.0,
@@ -30,7 +38,10 @@
       "moderate_anomaly_deduction": 25.0,
       "major_anomaly_deduction": 45.0,
       "arithmetic_mismatch_deduction": 30.0,
-      "eligibility_failure_deduction": 50.0
+      "eligibility_failure_deduction": 50.0,
+      "foir_marginal_breach_deduction": 10.0,
+      "foir_moderate_breach_deduction": 20.0,
+      "foir_severe_breach_deduction": 35.0
     },
     "routing_thresholds": {
       "green_min_score": 80.0,

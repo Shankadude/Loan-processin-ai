@@ -133,6 +133,79 @@ def detect_discrepancies(
             )
         )
 
+    # 4a. FOIR Breach Detection (Income-Slab-Aware)
+    foir_zone = obligation_calc.get("foir_zone", "SAFE")
+    foir_breach = obligation_calc.get("foir_breach", False)
+    foir_breach_severity = obligation_calc.get("foir_breach_severity", "none")
+    applicable_threshold = obligation_calc.get("applicable_foir_threshold", 50.0)
+    foir_headroom = obligation_calc.get("foir_headroom", 0.0)
+    max_eligible_emi = obligation_calc.get("max_eligible_emi", 0.0)
+
+    if foir_breach and foir_zone == "CRITICAL":
+        anomalies.append(
+            Anomaly(
+                code="FOIR_CRITICAL_BREACH",
+                severity="HIGH",
+                description=(
+                    f"FOIR ({dti_pct:.1f}%) in CRITICAL zone — exceeds high-risk ceiling. "
+                    f"Income-slab threshold: {applicable_threshold:.0f}%, "
+                    f"headroom: {foir_headroom:.1f}%, "
+                    f"max eligible EMI: Rs. {max_eligible_emi:,.2f}."
+                ),
+                source="foir_assessment",
+                evidence={
+                    "foir_percentage": dti_pct,
+                    "foir_zone": foir_zone,
+                    "applicable_threshold": applicable_threshold,
+                    "foir_headroom": foir_headroom,
+                    "max_eligible_emi": max_eligible_emi,
+                },
+            )
+        )
+    elif foir_breach and foir_zone == "BREACH":
+        anomalies.append(
+            Anomaly(
+                code="FOIR_BREACH",
+                severity="MEDIUM",
+                description=(
+                    f"FOIR ({dti_pct:.1f}%) exceeds income-slab threshold ({applicable_threshold:.0f}%) — "
+                    f"zone: {foir_zone}, headroom: {foir_headroom:.1f}%. "
+                    f"Max eligible EMI: Rs. {max_eligible_emi:,.2f}."
+                ),
+                source="foir_assessment",
+                evidence={
+                    "foir_percentage": dti_pct,
+                    "foir_zone": foir_zone,
+                    "applicable_threshold": applicable_threshold,
+                    "foir_headroom": foir_headroom,
+                    "max_eligible_emi": max_eligible_emi,
+                },
+            )
+        )
+
+    # 4b. EMI Unaffordability Detection
+    emi_affordable = obligation_calc.get("emi_affordability_passed", True)
+    proposed_emi = float(obligation_calc.get("proposed_emi", 0.0))
+    if not emi_affordable and proposed_emi > 0:
+        anomalies.append(
+            Anomaly(
+                code="EMI_UNAFFORDABLE",
+                severity="HIGH",
+                description=(
+                    f"Proposed EMI (Rs. {proposed_emi:,.2f}) exceeds maximum eligible EMI "
+                    f"(Rs. {max_eligible_emi:,.2f}) per income-slab FOIR capacity. "
+                    f"Applicant cannot service this loan at current obligations."
+                ),
+                source="foir_assessment",
+                evidence={
+                    "proposed_emi": proposed_emi,
+                    "max_eligible_emi": max_eligible_emi,
+                    "foir_percentage": dti_pct,
+                    "applicable_threshold": applicable_threshold,
+                },
+            )
+        )
+
     # 5. Bank Statement Balance Reconciliation (Tampering / Alteration Detection)
     if statement_calc and statement_calc.get("status") == "MISMATCH":
         diff = float(statement_calc.get("difference_amount", 0.0))

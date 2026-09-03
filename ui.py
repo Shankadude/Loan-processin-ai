@@ -193,9 +193,15 @@ if nav_selection == "Application Intake & Underwriting":
                 st.markdown("<span class='badge-amber'>🟡 Amber Review</span>", unsafe_allow_html=True)
 
         with m2:
-            st.metric(label="Calculated DTI / FOIR", value=f"{dti_val:.1f}%", delta=f"Risk: {risk_lvl}", delta_color="inverse" if dti_val > 50 else "normal")
+            foir_assess = step5_calc.get("foir_assessment", {})
+            foir_zone = foir_assess.get("foir_zone") or ob_metrics.get("foir_zone") or val_rep.get("foir_zone", "N/A")
+            foir_thresh = foir_assess.get("applicable_threshold") or ob_metrics.get("applicable_foir_threshold", 50.0)
+            max_elig_emi = foir_assess.get("max_eligible_emi") or ob_metrics.get("max_eligible_emi", 0.0)
+            zone_emoji = {"SAFE": "🟢", "STRETCH": "🟡", "BREACH": "🟠", "CRITICAL": "🔴"}.get(foir_zone, "⚪")
+            st.metric(label="FOIR (Fixed Obligation to Income Ratio)", value=f"{dti_val:.1f}%", delta=f"{zone_emoji} {foir_zone} Zone", delta_color="inverse" if dti_val > foir_thresh else "normal")
             existing_e = ob_metrics.get('total_existing_emis') or val_rep.get('total_existing_emis', 0.0)
             prop_e = ob_metrics.get('proposed_emi') or val_rep.get('proposed_emi', 0.0)
+            st.caption(f"Slab Threshold: {foir_thresh:.0f}% | Max Eligible EMI: ₹{max_elig_emi:,.0f}")
             st.caption(f"Existing EMI: ₹{existing_e:,.0f} | Proposed: ₹{prop_e:,.0f}")
 
         with m3:
@@ -251,11 +257,14 @@ if nav_selection == "Application Intake & Underwriting":
             st.subheader("100-Point Deterministic Risk Ledger")
             factors = step6_risk.get("factor_breakdown") or val_rep.get("factor_breakdown") or {}
             if factors:
-                f1, f2, f3, f4 = st.columns(4)
+                f1, f2, f3, f4, f5 = st.columns(5)
                 f1.metric("Base Score", f"{factors.get('base_score', 100):.0f}")
                 f2.metric("Major Deductions", f"{factors.get('major_anomalies_deduction', 0):.0f} pts")
                 f3.metric("Moderate Deductions", f"{factors.get('moderate_anomalies_deduction', 0):.0f} pts")
                 f4.metric("Arithmetic Penalty", f"{factors.get('statement_arithmetic_deduction', 0):.0f} pts")
+                foir_ded = factors.get('foir_zone_deduction', 0)
+                foir_sev = factors.get('foir_breach_severity', 'none')
+                f5.metric("FOIR Zone Penalty", f"{foir_ded:.0f} pts", delta=f"{foir_sev}" if foir_sev != "none" else None)
 
             cf_note = step6_risk.get("counterfactual_note") or val_rep.get("counterfactual_note")
             if cf_note:
